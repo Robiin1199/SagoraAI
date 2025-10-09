@@ -1,11 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ShieldCheck, SignalHigh } from "lucide-react";
+import { AuthControls } from "@/components/auth-controls";
 
 export function TopNav() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-gradient-to-r from-primary-600/90 to-primary-700/90 py-3 shadow-xl shadow-primary-900/20 backdrop-blur dark:border-slate-800">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6">
+      <div className="relative mx-auto flex w-full max-w-6xl items-center justify-between px-6">
         <Link href="#" className="flex items-center gap-2 text-white">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 shadow-card">
             <SignalHigh className="h-6 w-6" />
@@ -38,6 +41,7 @@ export function TopNav() {
             SSO Entreprise activé
           </div>
           <ThemeToggle />
+          <AuthControls />
         </div>
       </div>
     </header>
