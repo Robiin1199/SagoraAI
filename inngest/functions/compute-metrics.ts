@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { inngest } from "@/inngest/client";
 import { prisma } from "@/lib/prisma";
 
@@ -19,14 +18,24 @@ export const computeMetrics = inngest.createFunction(
       where: { organizationId }
     });
 
-    const paidCash = invoices
+    type InvoiceRecord = {
+      amount: number | string;
+      issuedAt: Date;
+      dueAt: Date | null;
+      paidAt: Date | null;
+      status: string;
+    };
+
+    const typedInvoices = invoices as InvoiceRecord[];
+
+    const paidCash = typedInvoices
       .filter((invoice) => invoice.paidAt)
       .reduce((sum, invoice) => sum + Number(invoice.amount), 0);
 
     const cash = seedCash + paidCash;
     const burn = seedBurn > 0 ? -seedBurn : seedBurn;
 
-    const outstanding = invoices
+    const outstanding = typedInvoices
       .filter((invoice) => invoice.status === "SENT" || invoice.status === "OVERDUE")
       .reduce((sum, invoice) => sum + Number(invoice.amount), 0);
 
@@ -34,7 +43,7 @@ export const computeMetrics = inngest.createFunction(
     const ninetyDaysAgo = new Date(now);
     ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
-    const salesLast90Days = invoices
+    const salesLast90Days = typedInvoices
       .filter((invoice) => invoice.issuedAt >= ninetyDaysAgo)
       .reduce((sum, invoice) => sum + Number(invoice.amount), 0);
 
@@ -45,10 +54,10 @@ export const computeMetrics = inngest.createFunction(
     await prisma.metricSnapshot.create({
       data: {
         organizationId,
-        cash: new Prisma.Decimal(cash),
-        burn: new Prisma.Decimal(burn),
-        runwayMonths: new Prisma.Decimal(Number.isFinite(runwayMonths) ? runwayMonths : 0),
-        dso: new Prisma.Decimal(dso)
+        cash,
+        burn,
+        runwayMonths: Number.isFinite(runwayMonths) ? runwayMonths : 0,
+        dso
       }
     });
 

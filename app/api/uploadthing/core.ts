@@ -1,4 +1,3 @@
-import { Prisma, type InvoiceStatus } from "@prisma/client";
 import { inngest } from "@/inngest/client";
 import { parseInvoiceCsv } from "@/lib/invoices/csv";
 import { prisma } from "@/lib/prisma";
@@ -46,21 +45,21 @@ export const fileRouter = {
               organizationId: metadata.organizationId,
               externalId: invoice.externalId,
               customerName: invoice.customerName,
-              amount: new Prisma.Decimal(invoice.amount),
+              amount: invoice.amount,
               currency: invoice.currency,
               issuedAt: invoice.issuedAt,
               dueAt: invoice.dueAt,
               paidAt: invoice.paidAt,
-              status: invoice.status as InvoiceStatus
+              status: invoice.status
             },
             update: {
               customerName: invoice.customerName,
-              amount: new Prisma.Decimal(invoice.amount),
+              amount: invoice.amount,
               currency: invoice.currency,
               issuedAt: invoice.issuedAt,
               dueAt: invoice.dueAt,
               paidAt: invoice.paidAt,
-              status: invoice.status as InvoiceStatus
+              status: invoice.status
             }
           })
         )

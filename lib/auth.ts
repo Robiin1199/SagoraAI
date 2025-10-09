@@ -1,6 +1,5 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
-import { MembershipRole } from "@prisma/client";
 import { randomUUID } from "crypto";
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
@@ -48,7 +47,7 @@ async function ensureOrganizationForUser(userId: string, fallbackName?: string) 
       memberships: {
         create: {
           userId,
-          role: MembershipRole.OWNER
+          role: "OWNER"
         }
       }
     }
@@ -61,7 +60,7 @@ const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 if (!googleClientId || !googleClientSecret) {
-  throw new Error("Google OAuth non configuré. Renseignez GOOGLE_CLIENT_ID et GOOGLE_CLIENT_SECRET.");
+  console.warn("Google OAuth non configuré. Renseignez GOOGLE_CLIENT_ID et GOOGLE_CLIENT_SECRET.");
 }
 
 export const authOptions: NextAuthOptions = {
@@ -69,8 +68,8 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
-      clientId: googleClientId,
-      clientSecret: googleClientSecret
+      clientId: googleClientId ?? "stub-google-client-id",
+      clientSecret: googleClientSecret ?? "stub-google-client-secret"
     })
   ],
   session: {

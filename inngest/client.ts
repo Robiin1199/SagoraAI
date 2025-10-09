@@ -1,3 +1,3 @@
 import { Inngest } from "inngest";
 
-export const inngest = new Inngest({ name: "Sagora Cockpit" });
+export const inngest = new Inngest({ id: "sagora-cockpit" });

@@ -3,7 +3,6 @@ import "server-only";
 import { inngest } from "@/inngest/client";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { InvoiceStatus } from "@prisma/client";
 import { unstable_noStore as noStore } from "next/cache";
 
 export type CashAlert = {
@@ -81,7 +80,7 @@ export async function getCashSnapshot(): Promise<CashSnapshot> {
     prisma.invoice.findMany({
       where: {
         organizationId,
-        status: InvoiceStatus.OVERDUE
+        status: "OVERDUE"
       },
       orderBy: { dueAt: "asc" },
       take: 5
@@ -94,7 +93,17 @@ export async function getCashSnapshot(): Promise<CashSnapshot> {
 
   const toNumber = (value: unknown) => Number(value ?? 0);
 
-  const alerts: CashAlert[] = overdueInvoices.map((invoice) => ({
+  type OverdueInvoice = {
+    id: string;
+    customerName: string;
+    amount: number | string;
+    currency: string;
+    dueAt: Date | null;
+  };
+
+  const overdue = overdueInvoices as OverdueInvoice[];
+
+  const alerts: CashAlert[] = overdue.map((invoice) => ({
     id: invoice.id,
     title: `Facture en retard – ${invoice.customerName}`,
     description: `${invoice.customerName} doit ${Number(invoice.amount).toFixed(2)} ${invoice.currency} depuis ${invoice.dueAt?.toLocaleDateString("fr-FR") ?? "date inconnue"}.`,
