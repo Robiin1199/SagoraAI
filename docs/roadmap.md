@@ -1,5 +1,7 @@
 # Roadmap produit Sagora
 
+> Références : cette roadmap complète le référentiel [`SAGORA_APP_CODEX.md`](../SAGORA_APP_CODEX.md) et s'aligne sur le registre des fonctionnalités (`features/registry.md`). Toute évolution produit doit mettre à jour ces sources conjointement.
+
 ## Thèse produit
 Sagora devient le copilote cash-flow des PME européennes en livrant une expérience "brancher, analyser, agir" qui transforme la donnée bancaire brute en décisions de trésorerie exploitables en moins d'une heure.
 

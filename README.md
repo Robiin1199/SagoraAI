@@ -66,4 +66,4 @@ Le MVP est statique, aucune base de données n'est requise pour cette première 
 - Mettre en place les tests unitaires (`@testing-library/react`) et end-to-end (Playwright) avant de brancher sur CI.
 - Structurer l'état applicatif (React Query/TanStack Query) pour accueillir des appels API.
 
-Pour plus de contexte stratégique, consultez le fichier [`SAGORA_APP_CODEX.md`](./SAGORA_APP_CODEX.md).
+Pour plus de contexte stratégique, consultez le fichier [`SAGORA_APP_CODEX.md`](./SAGORA_APP_CODEX.md) ainsi que la roadmap d'exécution (`docs/roadmap.md`).

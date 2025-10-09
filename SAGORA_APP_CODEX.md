@@ -5,9 +5,10 @@
 ## 0) Métadonnées
 - Produit : Sagora – Cockpit financier PME
 - Propriétaire : Équipe Produit Sagora
-- Dernière MAJ : 2024-05-29
+- Dernière MAJ : 2024-06-07
 - Statut : En cours
 - Version : 0.3
+- Roadmap associée : [`docs/roadmap.md`](./docs/roadmap.md)
 
 ## 1) Contexte & Vision (Contexte)
 - Problème : vision financière morcelée (banques, compta, ERP), lenteur de décision, manque d’actions concrètes.
@@ -96,7 +97,7 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 - “Runway < 45 j” → suggérer affacturage/RCF, geler CAPEX non critiques.
 
 ## 13) Backlog Traçable – Objectifs & Fonctionnalités (Action)
-> Marquer **REMPLIE / NON REMPLIE / EN COURS**, + date, owner, lien PR.
+> Marquer **REMPLIE / NON REMPLIE / EN COURS**, + date, owner, lien PR. Synchroniser chaque mise à jour avec la roadmap (`docs/roadmap.md`).
 
 ### 13.1 MVP – Agrégation & Normalisation
 - [ ] Connexion PSD2 via agrégateur TPP — **NON REMPLIE** | Owner: <…> | Due: <…> | PR: <…>
