@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { cn, formatCurrency, formatDelta } from "@/lib/utils";
 
-interface HighlightMetricProps {
+export interface HighlightMetricProps {
   label: string;
   value: number;
   currency?: string;

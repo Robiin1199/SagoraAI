@@ -15,8 +15,9 @@ import {
   type CashScenario,
   type CashSnapshot
 } from "@/lib/api/cash";
+import { getDashboardViewModel } from "@/lib/dashboard";
 import { formatCurrency } from "@/lib/utils";
-import { Activity, ArrowUpRightSquare, Flame, Gauge, PiggyBank } from "lucide-react";
+import { Activity, ArrowUpRightSquare } from "lucide-react";
 
 const revenuePerformance = [
   {
@@ -61,47 +62,12 @@ export default async function Page() {
     errorMessage = error instanceof Error ? error.message : "Une erreur inattendue est survenue.";
   }
 
-  const isLoading = !snapshot && !errorMessage;
+  const { highlightMetrics, runwayCard, lastUpdateLabel, isLoading } = getDashboardViewModel(
+    snapshot,
+    errorMessage
+  );
 
-  const highlightMetrics = snapshot
-    ? [
-        {
-          label: "Cash disponible",
-          value: snapshot.cashAvailable,
-          delta: snapshot.cashDelta30d,
-          icon: <PiggyBank className="h-6 w-6" />,
-          color: "primary" as const,
-          description: "Toutes banques agrégées (BNP, Qonto, HSBC).",
-          currency: snapshot.currency
-        },
-        {
-          label: "Burn mensuel",
-          value: snapshot.burnRate,
-          delta: snapshot.burnDelta30d,
-          icon: <Flame className="h-6 w-6" />,
-          color: "danger" as const,
-          description: "Charges fixes + payroll + CAPEX planifié.",
-          currency: snapshot.currency
-        },
-        {
-          label: "Runway",
-          value: snapshot.runwayMonths,
-          icon: <Gauge className="h-6 w-6" />,
-          color: "warning" as const,
-          description: "Projection avec factoring activé sur clients Top 20.",
-          valueFormatter: (value: number) => `${value.toFixed(1)} mois`
-        }
-      ]
-    : [];
-
-  const runwayCard = snapshot
-    ? {
-        cash: snapshot.cashAvailable,
-        burn: snapshot.burnRate,
-        runway: snapshot.runwayMonths,
-        currency: snapshot.currency
-      }
-    : null;
+  const forecastCurrency = forecast?.currency ?? snapshot?.currency;
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -118,10 +84,7 @@ export default async function Page() {
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-primary-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-primary-600">
                 <ArrowUpRightSquare className="h-4 w-4" />
-                {snapshot ? `Mise à jour ${new Date(snapshot.updatedAt).toLocaleTimeString("fr-FR", {
-                  hour: "2-digit",
-                  minute: "2-digit"
-                })}` : "Chargement en cours"}
+                {lastUpdateLabel}
               </span>
               <h2 className="mt-4 text-3xl font-semibold text-slate-900 dark:text-white">
                 Votre cockpit de décision en temps réel
@@ -168,7 +131,7 @@ export default async function Page() {
               </span>
             </header>
             <div className="mt-6">
-              <ForecastChart points={forecast?.points ?? []} currency={forecast?.currency ?? snapshot?.currency} />
+              <ForecastChart points={forecast?.points ?? []} currency={forecastCurrency} />
             </div>
             <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
               Hypothèses : factoring activé, budget payroll validé, CAPEX maîtrisé. Prochain recalcul dans 55 minutes.
