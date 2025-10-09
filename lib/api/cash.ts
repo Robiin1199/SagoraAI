@@ -1,11 +1,26 @@
 import "server-only";
 
+import { inngest } from "@/inngest/client";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { InvoiceStatus } from "@prisma/client";
+import { unstable_noStore as noStore } from "next/cache";
+
+export type CashAlert = {
+  id: string;
+  title: string;
+  description: string;
+  severity: "success" | "warning" | "danger" | "info";
+  timestamp: string;
+};
+
 export type CashSnapshot = {
   currency: string;
   updatedAt: string;
   cashAvailable: number;
   burnRate: number;
   runwayMonths: number;
+  dso: number;
   cashDelta30d?: number;
   burnDelta30d?: number;
   runwayDelta30d?: number;
@@ -33,208 +48,146 @@ export type CashScenario = {
   riskNarrative: string;
 };
 
-export type CashAlert = {
-  id: string;
-  title: string;
-  description: string;
-  severity: "success" | "warning" | "danger" | "info";
-  timestamp: string;
-};
-
-type GraphQLResponse<T> = {
-  data?: T;
-  errors?: Array<{ message: string }>;
-};
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL;
-const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === "true";
-
-const mockSnapshot: CashSnapshot = {
-  currency: "EUR",
-  updatedAt: new Date().toISOString(),
-  cashAvailable: 718_450,
-  burnRate: -112_300,
-  runwayMonths: 6.4,
-  cashDelta30d: 8.6,
-  burnDelta30d: -4.1,
-  runwayDelta30d: 0.3,
-  alerts: [
-    {
-      id: "cash-burn",
-      title: "Alerte cash burn",
-      description: "Le burn mensuel dépasse le budget de 12%. Revoyez le plan de recrutement.",
-      severity: "warning",
-      timestamp: "Il y a 2 h"
-    },
-    {
-      id: "invoice-overdue",
-      title: "Facture client > 90 jours",
-      description: "Client Madera : 86 k€ en attente, dernière relance le 2 mai.",
-      severity: "danger",
-      timestamp: "Il y a 5 h"
-    },
-    {
-      id: "security-review",
-      title: "Revue sécurité hebdo",
-      description: "Aucun incident critique. 2 tentatives de connexion bloquées.",
-      severity: "success",
-      timestamp: "Hier"
-    }
-  ]
-};
-
-const mockForecast: CashForecast = {
-  horizonDays: 90,
-  currency: "EUR",
-  points: [
-    { label: "J0", value: 720_000 },
-    { label: "J7", value: 695_000 },
-    { label: "J14", value: 670_000 },
-    { label: "J30", value: 640_000 },
-    { label: "J45", value: 625_000 },
-    { label: "J60", value: 610_000 },
-    { label: "J75", value: 602_000 },
-    { label: "J90", value: 598_000 }
-  ]
-};
-
-const mockScenarios: CashScenario[] = [
-  {
-    id: "base",
-    variant: "BASE",
-    name: "Base case",
-    narrative: "Plan budgété Q2 aligné, factoring activé sur top clients.",
-    runwayLabel: "6,4 mois",
-    deltaLabel: "+0,3 mois vs semaine dernière",
-    riskNarrative: "Risque maîtrisé"
-  },
-  {
-    id: "stress",
-    variant: "STRESS",
-    name: "Stress",
-    narrative: "Churn +2 pts, retard fournisseurs énergie non négocié.",
-    runwayLabel: "4,9 mois",
-    deltaLabel: "-1,1 mois",
-    riskNarrative: "Activer plan BFR & revue coûts"
-  },
-  {
-    id: "growth",
-    variant: "GROWTH",
-    name: "Growth",
-    narrative: "Upsell signé + renégociation DPO énergie à 45j.",
-    runwayLabel: "8,2 mois",
-    deltaLabel: "+1,8 mois",
-    riskNarrative: "Capacité cash sécurisée"
+async function requireSession() {
+  const session = await auth();
+  if (!session?.user?.organizationId) {
+    throw new Error("Utilisateur non authentifié");
   }
-];
+  return session;
+}
 
-async function graphQLRequest<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
-  if (!API_URL) {
-    throw new Error("API URL non configurée");
+function formatDelta(newValue?: number, oldValue?: number) {
+  if (newValue === undefined || oldValue === undefined) {
+    return undefined;
   }
-
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ query, variables }),
-    cache: "no-store"
-  });
-
-  if (!response.ok) {
-    throw new Error(`Erreur réseau (${response.status})`);
-  }
-
-  const json = (await response.json()) as GraphQLResponse<T>;
-
-  if (json.errors?.length) {
-    throw new Error(json.errors.map((error) => error.message).join(", "));
-  }
-
-  if (!json.data) {
-    throw new Error("Réponse GraphQL vide");
-  }
-
-  return json.data;
+  return Number(newValue - oldValue);
 }
 
 export async function getCashSnapshot(): Promise<CashSnapshot> {
-  if (USE_MOCKS || !API_URL) {
-    return mockSnapshot;
+  noStore();
+  const session = await requireSession();
+  const organizationId = session.user!.organizationId!;
+
+  const [latest, previous, overdueInvoices] = await Promise.all([
+    prisma.metricSnapshot.findFirst({
+      where: { organizationId },
+      orderBy: { createdAt: "desc" }
+    }),
+    prisma.metricSnapshot.findFirst({
+      where: { organizationId },
+      orderBy: { createdAt: "desc" },
+      skip: 1
+    }),
+    prisma.invoice.findMany({
+      where: {
+        organizationId,
+        status: InvoiceStatus.OVERDUE
+      },
+      orderBy: { dueAt: "asc" },
+      take: 5
+    })
+  ]);
+
+  if (!latest) {
+    throw new Error("Aucune donnée de métriques n'est disponible. Importez vos factures pour démarrer.");
   }
 
-  const data = await graphQLRequest<{ cashSnapshot: CashSnapshot }>(
-    `#graphql
-    query CashSnapshot {
-      cashSnapshot {
-        currency
-        updatedAt
-        cashAvailable
-        burnRate
-        runwayMonths
-        cashDelta30d
-        burnDelta30d
-        runwayDelta30d
-        alerts {
-          id
-          title
-          description
-          severity
-          timestamp
-        }
-      }
-    }
-  `
-  );
+  const toNumber = (value: unknown) => Number(value ?? 0);
 
-  return data.cashSnapshot;
+  const alerts: CashAlert[] = overdueInvoices.map((invoice) => ({
+    id: invoice.id,
+    title: `Facture en retard – ${invoice.customerName}`,
+    description: `${invoice.customerName} doit ${Number(invoice.amount).toFixed(2)} ${invoice.currency} depuis ${invoice.dueAt?.toLocaleDateString("fr-FR") ?? "date inconnue"}.`,
+    severity: "danger",
+    timestamp: invoice.dueAt ? `Échéance ${invoice.dueAt.toLocaleDateString("fr-FR")}` : "Échéance inconnue"
+  }));
+
+  if (!alerts.length) {
+    alerts.push({
+      id: "metrics-fresh",
+      title: "KPIs à jour",
+      description: "Les indicateurs financiers ont été recalculés récemment via Inngest.",
+      severity: "success",
+      timestamp: new Date(latest.createdAt).toLocaleString("fr-FR")
+    });
+  }
+
+  return {
+    currency: "EUR",
+    updatedAt: latest.createdAt.toISOString(),
+    cashAvailable: toNumber(latest.cash),
+    burnRate: toNumber(latest.burn),
+    runwayMonths: toNumber(latest.runwayMonths),
+    dso: toNumber(latest.dso),
+    cashDelta30d: formatDelta(toNumber(latest.cash), previous ? toNumber(previous.cash) : undefined),
+    burnDelta30d: formatDelta(toNumber(latest.burn), previous ? toNumber(previous.burn) : undefined),
+    runwayDelta30d: formatDelta(toNumber(latest.runwayMonths), previous ? toNumber(previous.runwayMonths) : undefined),
+    alerts
+  };
 }
 
 export async function getCashForecast(): Promise<CashForecast> {
-  if (USE_MOCKS || !API_URL) {
-    return mockForecast;
-  }
+  const snapshot = await getCashSnapshot();
+  const horizonDays = 90;
+  const monthlyBurn = snapshot.burnRate;
+  const dailyBurn = monthlyBurn / 30;
 
-  const data = await graphQLRequest<{ cashForecast: CashForecast }>(
-    `#graphql
-    query CashForecast($horizonDays: Int!) {
-      cashForecast(horizonDays: $horizonDays) {
-        horizonDays
-        currency
-        points {
-          label
-          value
-        }
-      }
-    }
-  `,
-    { horizonDays: 90 }
-  );
+  const points = Array.from({ length: 7 }).map((_, index) => {
+    const day = index * 15;
+    const forecast = snapshot.cashAvailable + dailyBurn * day;
+    return {
+      label: day === 0 ? "J0" : `J${day}`,
+      value: Math.max(forecast, 0)
+    } satisfies CashForecastPoint;
+  });
 
-  return data.cashForecast;
+  return {
+    horizonDays,
+    currency: snapshot.currency,
+    points
+  };
 }
 
 export async function getCashScenarios(): Promise<CashScenario[]> {
-  if (USE_MOCKS || !API_URL) {
-    return mockScenarios;
-  }
+  const snapshot = await getCashSnapshot();
+  const runway = snapshot.runwayMonths;
+  const formatRunway = (value: number) => `${value.toFixed(1)} mois`;
 
-  const data = await graphQLRequest<{ cashScenarios: CashScenario[] }>(
-    `#graphql
-    query CashScenarios {
-      cashScenarios {
-        id
-        variant
-        name
-        narrative
-        runwayLabel
-        deltaLabel
-        riskNarrative
-      }
+  return [
+    {
+      id: "base",
+      variant: "BASE",
+      name: "Base case",
+      narrative: "Projection basée sur le burn actuel recalculé.",
+      runwayLabel: formatRunway(runway),
+      deltaLabel: "Situation de référence",
+      riskNarrative: "Risque maîtrisé si le burn reste stable"
+    },
+    {
+      id: "stress",
+      variant: "STRESS",
+      name: "Stress",
+      narrative: "Hypothèse +20% de burn (coûts supplémentaires).",
+      runwayLabel: formatRunway(Math.max(runway - runway * 0.2, 0)),
+      deltaLabel: "-20% runway",
+      riskNarrative: "Activer un plan de réduction des coûts"
+    },
+    {
+      id: "growth",
+      variant: "GROWTH",
+      name: "Growth",
+      narrative: "Upsell clients + réduction DSO de 15%.",
+      runwayLabel: formatRunway(runway + runway * 0.25),
+      deltaLabel: "+25% runway",
+      riskNarrative: "Capacité cash sécurisée"
     }
-  `
-  );
+  ];
+}
 
-  return data.cashScenarios;
+export async function triggerMetricsRefresh() {
+  const session = await requireSession();
+  await inngest.send({
+    name: "metrics/compute",
+    data: { organizationId: session.user!.organizationId }
+  });
 }

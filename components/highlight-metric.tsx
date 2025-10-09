@@ -7,7 +7,7 @@ interface HighlightMetricProps {
   currency?: string;
   delta?: number;
   icon: ReactNode;
-  color?: "primary" | "success" | "warning" | "danger";
+  color?: "primary" | "success" | "warning" | "danger" | "info";
   description?: string;
   valueFormatter?: (value: number) => string;
 }
@@ -30,7 +30,8 @@ export function HighlightMetric({
           color === "primary" && "bg-primary-500",
           color === "success" && "bg-success",
           color === "warning" && "bg-warning",
-          color === "danger" && "bg-danger"
+          color === "danger" && "bg-danger",
+          color === "info" && "bg-slate-500"
         )}
       />
       <div className="relative flex items-center justify-between">
@@ -51,7 +52,8 @@ export function HighlightMetric({
             color === "primary" && "from-primary-400 to-primary-600",
             color === "success" && "from-success to-green-700",
             color === "warning" && "from-warning to-amber-500",
-            color === "danger" && "from-danger to-rose-600"
+            color === "danger" && "from-danger to-rose-600",
+            color === "info" && "from-slate-500 to-slate-600"
           )}
         >
           {icon}

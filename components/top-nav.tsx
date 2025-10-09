@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ShieldCheck, SignalHigh } from "lucide-react";
+import { auth } from "@/lib/auth";
+import { SignOutButton } from "@/components/sign-out-button";
 
-export function TopNav() {
+export async function TopNav() {
+  const session = await auth();
+  const user = session?.user;
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-gradient-to-r from-primary-600/90 to-primary-700/90 py-3 shadow-xl shadow-primary-900/20 backdrop-blur dark:border-slate-800">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6">
@@ -35,8 +40,14 @@ export function TopNav() {
         <div className="flex items-center gap-3">
           <div className="hidden items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs uppercase tracking-wide text-white/70 md:flex">
             <ShieldCheck className="h-3.5 w-3.5" />
-            SSO Entreprise activé
+            {user?.organizationName ?? "Organisation"}
           </div>
+          {user && (
+            <div className="hidden items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/80 md:flex">
+              <span>{user.name ?? user.email}</span>
+              <SignOutButton />
+            </div>
+          )}
           <ThemeToggle />
         </div>
       </div>
