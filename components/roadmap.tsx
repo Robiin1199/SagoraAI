@@ -67,15 +67,15 @@ const roadmap: RoadmapStep[] = [
     status: "progress",
     target: "T3 – T4 2024",
     owner: "Product & RevOps",
-    confidence: "60%",
-    focus: "Rendre le BFR actionnable avec relances intégrées et reporting partageable, sans pression calendrier court terme.",
-    risk: "Capacité engineering partagée avec la finalisation PSD2 + dépendance moteur emailing et intégrations CRM.",
-    checkpoint: "Design review du 30 juin puis jalons mensuels jusqu’à fin octobre.",
+    confidence: "65%",
+    focus: "Industrialiser le pilotage BFR : aging live, workflows de validation et exports prêts pour comité de direction.",
+    risk: "Dépendance moteur emailing transactionnel et disponibilité des squads CRM pour brancher les workflows.",
+    checkpoint: "Design review du 30 juin, revue adoption aging le 10 juin puis jalons mensuels jusqu’à fin octobre.",
     items: [
       {
         label: "DSO/DPO/DIO interactif",
-        status: "progress",
-        note: "Aging interactif en développement avec itérations UX hebdomadaires."
+        status: "done",
+        note: "Module aging interactif live (segmentation + plan d’action par segment)."
       },
       {
         label: "Workflows validation",
@@ -212,7 +212,7 @@ export function Roadmap() {
             Rolling 90 jours
           </span>
           <span className="rounded-full border border-primary-100 px-3 py-1 font-semibold uppercase tracking-wide text-primary-500 dark:border-primary-500/40 dark:text-primary-300">
-            Dernière revue : 20 mai 2024
+            Dernière revue : 27 mai 2024
           </span>
         </div>
       </header>
@@ -343,7 +343,7 @@ export function Roadmap() {
         <p className="mt-2">
           {overallProgress}% du backlog roadmap est livré ({totals.done} livrés, {totals.progress} en cours, {totals.planned} planifiés).
         </p>
-        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Source : SAGORA_APP_CODEX v0.2 – mise à jour 20/05/2024.</p>
+        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Source : SAGORA_APP_CODEX v0.3 – mise à jour 27/05/2024.</p>
       </footer>
     </section>
   );
