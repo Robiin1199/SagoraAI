@@ -31,18 +31,18 @@ const roadmap: RoadmapStep[] = [
   {
     title: "V1 – Pilotage Cash",
     description: "Stabiliser le cockpit, aligner cash + alertes, livrer scénarios.",
-    status: "progress",
-    target: "T2 2024",
+    status: "done",
+    target: "Mai 2024 – Go-live pilote",
     owner: "Squad Frontend & Data",
     confidence: "80%",
-    focus: "Industrialiser l’ingestion PSD2 et fiabiliser le cockpit cash avant ouverture aux clients pilotes.",
-    risk: "Dépendance à l’homologation TPP PSD2 et nécessité d’un monitoring rapproché du BFR.",
-    checkpoint: "Comité produit du 15 mai pour go-live pilote.",
+    focus: "Hypercare post go-live et transfert aux équipes support pour capitaliser sur les premiers retours clients.",
+    risk: "Risque de dérive fonctionnelle pendant l’hypercare si la priorisation des retours n’est pas cadencée.",
+    checkpoint: "Retro & handover du 20 mai pour clore l’itération et documenter les apprentissages.",
     items: [
       {
         label: "Connexion PSD2",
-        status: "progress",
-        note: "Homologation TPP en cours, flux sandbox validés."
+        status: "done",
+        note: "Homologation TPP validée et flux production stabilisés."
       },
       {
         label: "Prévision 90 jours",
@@ -64,33 +64,33 @@ const roadmap: RoadmapStep[] = [
   {
     title: "V2 – Collaboration",
     description: "Fluidifier la coordination finance/sales : workflows et relances.",
-    status: "planned",
-    target: "T3 2024",
+    status: "progress",
+    target: "T3 – T4 2024",
     owner: "Product & RevOps",
     confidence: "60%",
-    focus: "Rendre le BFR actionnable avec relances intégrées et reporting partageable.",
-    risk: "Capacité engineering partagée avec la finalisation PSD2 + dépendance moteur emailing.",
-    checkpoint: "Design review du 30 juin pour arbitrage des workflows.",
+    focus: "Rendre le BFR actionnable avec relances intégrées et reporting partageable, sans pression calendrier court terme.",
+    risk: "Capacité engineering partagée avec la finalisation PSD2 + dépendance moteur emailing et intégrations CRM.",
+    checkpoint: "Design review du 30 juin puis jalons mensuels jusqu’à fin octobre.",
     items: [
       {
         label: "DSO/DPO/DIO interactif",
         status: "progress",
-        note: "Tableau statique livré, aging interactif à brancher."
+        note: "Aging interactif en développement avec itérations UX hebdomadaires."
       },
       {
         label: "Workflows validation",
         status: "planned",
-        note: "Spécifications en cours de cadrage avec finance + sales."
+        note: "Spécifications en cours de cadrage avec finance + sales (cible fin juillet)."
       },
       {
         label: "Relances automatisées",
         status: "planned",
-        note: "Dépend des triggers d’emails transactionnels."
+        note: "Dépend des triggers d’emails transactionnels et de l’orchestration CRM."
       },
       {
         label: "Export reporting",
         status: "planned",
-        note: "Alignement CFO/CRO en préparation (formats PDF & CSV)."
+        note: "Alignement CFO/CRO en préparation (formats PDF & CSV) avec buffer H2 2024."
       }
     ]
   },
@@ -212,7 +212,7 @@ export function Roadmap() {
             Rolling 90 jours
           </span>
           <span className="rounded-full border border-primary-100 px-3 py-1 font-semibold uppercase tracking-wide text-primary-500 dark:border-primary-500/40 dark:text-primary-300">
-            Dernière revue : 8 mai 2024
+            Dernière revue : 20 mai 2024
           </span>
         </div>
       </header>
@@ -343,7 +343,7 @@ export function Roadmap() {
         <p className="mt-2">
           {overallProgress}% du backlog roadmap est livré ({totals.done} livrés, {totals.progress} en cours, {totals.planned} planifiés).
         </p>
-        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Source : SAGORA_APP_CODEX v0.2 – mise à jour 08/05/2024.</p>
+        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Source : SAGORA_APP_CODEX v0.2 – mise à jour 20/05/2024.</p>
       </footer>
     </section>
   );
