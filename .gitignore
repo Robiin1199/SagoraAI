@@ -11,6 +11,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Playwright artifacts
+test-results/
+tests/e2e-report/
+
 # Editor
 .vscode
 .idea

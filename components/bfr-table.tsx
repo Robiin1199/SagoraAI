@@ -13,6 +13,11 @@ type BfrMetric = {
   impact: string;
 };
 
+type BfrTableProps = {
+  dso: number;
+  currency: string;
+};
+
 type AgingBucketKey = "0-30" | "31-45" | "46-60" | "61-90" | "90+";
 
 type AgingActionType = "email" | "call" | "workshop" | "automation";
@@ -50,7 +55,7 @@ type AgingSegment = {
   highlight: string;
 };
 
-const rows: BfrMetric[] = [
+const baseRows: BfrMetric[] = [
   {
     metric: "DSO",
     value: 54,
@@ -89,7 +94,7 @@ const actionIcons: Record<AgingActionType, typeof Mail> = {
   automation: CalendarClock
 };
 
-const agingSegments: AgingSegment[] = [
+const baseAgingSegments: AgingSegment[] = [
   {
     id: "global",
     label: "Consolidé",
@@ -320,12 +325,43 @@ const agingSegments: AgingSegment[] = [
   }
 ];
 
-export function BfrTable() {
-  const [selectedSegmentId, setSelectedSegmentId] = useState<string>(agingSegments[0]?.id ?? "global");
+export function BfrTable({ dso, currency }: BfrTableProps) {
+  const [selectedSegmentId, setSelectedSegmentId] = useState<string>(baseAgingSegments[0]?.id ?? "global");
+
+  const metrics = useMemo(() => {
+    return baseRows.map((row, index) => {
+      if (index === 0) {
+        const variance = Math.round(dso - row.target);
+        return {
+          ...row,
+          value: Math.round(dso),
+          variance,
+          impact:
+            variance > 0
+              ? `+${variance} j vs cible – plan de recouvrement à activer`
+              : `-${Math.abs(variance)} j vs cible – cycle client maîtrisé`
+        } satisfies BfrMetric;
+      }
+      return row;
+    });
+  }, [dso]);
+
+  const segments = useMemo(() => {
+    return baseAgingSegments.map((segment, index) => {
+      if (index === 0) {
+        return {
+          ...segment,
+          dso: Math.round(dso),
+          currency
+        } satisfies AgingSegment;
+      }
+      return { ...segment, currency } satisfies AgingSegment;
+    });
+  }, [dso, currency]);
 
   const selectedSegment = useMemo(
-    () => agingSegments.find((segment) => segment.id === selectedSegmentId) ?? agingSegments[0],
-    [selectedSegmentId]
+    () => segments.find((segment) => segment.id === selectedSegmentId) ?? segments[0],
+    [segments, selectedSegmentId]
   );
 
   const bucketTotals = useMemo(() => {
@@ -351,7 +387,7 @@ export function BfrTable() {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
+          {metrics.map((row) => (
             <tr
               key={row.metric}
               className="border-t border-slate-200/40 bg-white/60 text-slate-700 transition hover:bg-white dark:border-slate-800/80 dark:bg-transparent dark:text-slate-200"
@@ -376,7 +412,7 @@ export function BfrTable() {
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{selectedSegment?.description}</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            {agingSegments.map((segment) => (
+            {segments.map((segment) => (
               <button
                 key={segment.id}
                 type="button"

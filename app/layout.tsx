@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
+import "@uploadthing/react/styles.css";
 import { ThemeProvider } from "next-themes";
 import { cn } from "@/lib/utils";
 

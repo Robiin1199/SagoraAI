@@ -6,26 +6,43 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "migrate": "prisma migrate deploy",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.11.0",
+    "@prisma/client": "^5.16.1",
+    "@uploadthing/react": "^6.7.2",
     "clsx": "^2.1.1",
+    "csv-parse": "^5.5.6",
+    "inngest": "^3.15.2",
     "lucide-react": "^0.379.0",
     "next": "^14.2.5",
+    "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.3.0"
+    "tailwind-merge": "^2.3.0",
+    "uploadthing": "^6.7.2",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.45.0",
     "@types/node": "^20.11.30",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.5",
+    "playwright": "^1.45.0",
     "postcss": "^8.4.35",
+    "prisma": "^5.16.1",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
   }
 }

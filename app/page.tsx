@@ -5,6 +5,7 @@ import { BfrTable } from "@/components/bfr-table";
 import { CashScenarios } from "@/components/cash-scenarios";
 import { ForecastChart } from "@/components/forecast-chart";
 import { HighlightMetric } from "@/components/highlight-metric";
+import { InvoiceUpload } from "@/components/invoice-upload";
 import { Roadmap } from "@/components/roadmap";
 import { TopNav } from "@/components/top-nav";
 import {
@@ -15,8 +16,10 @@ import {
   type CashScenario,
   type CashSnapshot
 } from "@/lib/api/cash";
+import { auth } from "@/lib/auth";
 import { formatCurrency } from "@/lib/utils";
 import { Activity, ArrowUpRightSquare, Flame, Gauge, PiggyBank } from "lucide-react";
+import { redirect } from "next/navigation";
 
 const revenuePerformance = [
   {
@@ -40,6 +43,11 @@ const revenuePerformance = [
 ];
 
 export default async function Page() {
+  const session = await auth();
+  if (!session?.user?.organizationId) {
+    redirect("/login");
+  }
+
   let errorMessage: string | null = null;
 
   let snapshot: CashSnapshot | null = null;
@@ -90,6 +98,14 @@ export default async function Page() {
           color: "warning" as const,
           description: "Projection avec factoring activé sur clients Top 20.",
           valueFormatter: (value: number) => `${value.toFixed(1)} mois`
+        },
+        {
+          label: "DSO",
+          value: snapshot.dso,
+          icon: <Activity className="h-6 w-6" />,
+          color: "info" as const,
+          description: "Jours de ventes en cours calculés sur les 90 derniers jours.",
+          valueFormatter: (value: number) => `${Math.round(value)} jours`
         }
       ]
     : [];
@@ -178,8 +194,12 @@ export default async function Page() {
           <AlertFeed alerts={snapshot?.alerts ?? []} />
         </section>
 
+        <section className="mt-12" id="upload">
+          <InvoiceUpload />
+        </section>
+
         <section className="mt-12 grid gap-6 lg:grid-cols-[1.3fr_0.7fr]" id="bfr">
-          <BfrTable />
+          <BfrTable dso={snapshot?.dso ?? 0} currency={snapshot?.currency ?? "EUR"} />
           <div className="rounded-3xl border border-white/60 bg-white/90 p-6 shadow-card dark:border-slate-800 dark:bg-slate-900/80">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Performance revenus</h3>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
