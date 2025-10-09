@@ -1,21 +1,31 @@
-const dataPoints = [
-  { day: "J0", value: 720000 },
-  { day: "J7", value: 695000 },
-  { day: "J14", value: 670000 },
-  { day: "J30", value: 640000 },
-  { day: "J45", value: 625000 },
-  { day: "J60", value: 610000 },
-  { day: "J75", value: 602000 },
-  { day: "J90", value: 598000 }
-];
+import { formatCurrency } from "@/lib/utils";
 
-export function ForecastChart() {
-  const max = Math.max(...dataPoints.map((p) => p.value));
-  const min = Math.min(...dataPoints.map((p) => p.value));
-  const points = dataPoints
+export interface ForecastChartPoint {
+  label: string;
+  value: number;
+}
+
+interface ForecastChartProps {
+  points: ForecastChartPoint[];
+  currency?: string;
+}
+
+export function ForecastChart({ points, currency = "EUR" }: ForecastChartProps) {
+  if (!points?.length) {
+    return (
+      <div className="flex h-48 w-full items-center justify-center rounded-3xl border border-dashed border-slate-200 bg-white/60 text-sm text-slate-400 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-500">
+        Données prévisionnelles indisponibles
+      </div>
+    );
+  }
+
+  const max = Math.max(...points.map((point) => point.value));
+  const min = Math.min(...points.map((point) => point.value));
+
+  const chartPoints = points
     .map((point, index) => {
-      const x = (index / (dataPoints.length - 1)) * 100;
-      const y = ((max - point.value) / (max - min)) * 100;
+      const x = (index / (points.length - 1)) * 100;
+      const y = max === min ? 50 : ((max - point.value) / (max - min)) * 100;
       return `${x},${y}`;
     })
     .join(" ");
@@ -30,25 +40,31 @@ export function ForecastChart() {
           </linearGradient>
         </defs>
         <polygon
-          points={`0,100 ${points} 100,100`}
+          points={`0,100 ${chartPoints} 100,100`}
           fill="url(#cashGradient)"
           stroke="none"
           vectorEffect="non-scaling-stroke"
         />
         <polyline
-          points={points}
+          points={chartPoints}
           fill="none"
           stroke="#1C5DFF"
           strokeWidth={1.5}
           vectorEffect="non-scaling-stroke"
         />
       </svg>
-      <div className="grid grid-cols-8 gap-2 text-[10px] uppercase tracking-wider text-slate-400">
-        {dataPoints.map((point) => (
-          <span key={point.day} className="text-center">
-            {point.day}
+      <div
+        className="grid gap-2 text-[10px] uppercase tracking-wider text-slate-400"
+        style={{ gridTemplateColumns: `repeat(${points.length}, minmax(0, 1fr))` }}
+      >
+        {points.map((point) => (
+          <span key={point.label} className="text-center">
+            {point.label}
           </span>
         ))}
+      </div>
+      <div className="mt-2 flex items-center justify-end text-xs text-slate-400 dark:text-slate-500">
+        <span>Valeurs en {formatCurrency(1, currency).replace(/[0-9.,\s]+$/, "").trim() || currency}</span>
       </div>
     </div>
   );
