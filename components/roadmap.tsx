@@ -54,7 +54,7 @@ const statusConfig: Record<RoadmapStatus, { label: string; className: string }> 
 export function Roadmap() {
   return (
     <section className="rounded-3xl border border-white/60 bg-white/90 p-6 shadow-card dark:border-slate-800 dark:bg-slate-900/80">
-      <header className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:justify-between">
+      <header className="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-start md:justify-between">
         <div className="space-y-1">
           <p className="text-xs uppercase tracking-widest text-primary-500">Roadmap produit</p>
           <h2 className="text-xl font-semibold leading-snug text-slate-900 dark:text-white">Cap sur 12 mois de pilotage financier</h2>
@@ -63,19 +63,19 @@ export function Roadmap() {
           Rolling 90 jours
         </span>
       </header>
-      <div className="mt-6 grid gap-5 md:grid-cols-3">
+      <div className="mt-6 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {roadmap.map((step) => {
           const status = statusConfig[step.status];
           return (
             <article
               key={step.title}
-              className="flex min-h-[280px] flex-col justify-between gap-6 rounded-3xl border border-white/60 bg-white/75 p-6 dark:border-slate-800/60 dark:bg-slate-900/70"
+              className="flex min-h-[296px] flex-col justify-between gap-6 rounded-3xl border border-white/60 bg-white/75 p-6 dark:border-slate-800/60 dark:bg-slate-900/70"
             >
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-start md:justify-between md:gap-6">
                   <div className="space-y-1">
                     <h3 className="text-base font-semibold text-slate-900 dark:text-white md:text-lg">{step.title}</h3>
-                    <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400 md:leading-6 md:tracking-[0.01em]">
+                    <p className="break-words text-sm leading-relaxed text-slate-500 dark:text-slate-400 md:leading-6 md:tracking-[0.01em]">
                       {step.description}
                     </p>
                   </div>
@@ -103,7 +103,7 @@ export function Roadmap() {
               </div>
               <ul className="space-y-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400 md:space-y-2.5">
                 {step.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2 leading-relaxed">
+                  <li key={item} className="flex items-start gap-2 break-words leading-relaxed text-left">
                     <span className="h-1.5 w-1.5 rounded-full bg-primary-500" />
                     {item}
                   </li>
