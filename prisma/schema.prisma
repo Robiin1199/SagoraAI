@@ -65,7 +65,7 @@ model Invoice {
   dueAt          DateTime?
   paidAt         DateTime?
   customerName   String
-  amount         Decimal        @db.Numeric(14, 2)
+  amount         Decimal        @db.Decimal(14, 2)
   currency       String         @default("EUR")
   status         InvoiceStatus  @default(SENT)
   createdAt      DateTime       @default(now())
@@ -79,10 +79,10 @@ model Invoice {
 model MetricSnapshot {
   id             String   @id @default(cuid())
   organizationId String
-  cash           Decimal  @db.Numeric(14, 2)
-  burn           Decimal  @db.Numeric(14, 2)
-  runwayMonths   Decimal  @db.Numeric(10, 2)
-  dso            Decimal  @db.Numeric(10, 2)
+  cash           Decimal  @db.Decimal(14, 2)
+  burn           Decimal  @db.Decimal(14, 2)
+  runwayMonths   Decimal  @db.Decimal(10, 2)
+  dso            Decimal  @db.Decimal(10, 2)
   computedFor    DateTime @default(now())
   createdAt      DateTime @default(now())
 
