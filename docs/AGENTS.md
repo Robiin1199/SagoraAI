@@ -4,7 +4,7 @@
 Applies to the entire `docs/` tree.
 
 ## Editing principles
-- Keep documentation synchronized with the product codex (`../SAGORA_APP_CODEX.md`). If you document a new feature, reference the relevant codex section.
+- Keep documentation synchronized with the product codex (`../SAGORA_APP_CODEX.md`) and the execution roadmap (`roadmap.md`). If you document a new feature, reference the relevant codex section and adjust the roadmap when priorities or scope shift.
 - Use ISO dates (`YYYY-MM-DD`) for timelines and keep status labels consistent with the feature registry (`Live`, `Beta`, `En cours`, `Planifié`).
 - Prefer tables for KPI snapshots and bullet lists for dependencies.
 

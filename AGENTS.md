@@ -5,6 +5,7 @@ These instructions apply to the whole SagoraAI repository unless a nested `AGENT
 
 ## Product context
 - The app implements the Sagora cockpit for SMEs. Use `SAGORA_APP_CODEX.md` as the authoritative product spec and backlog when you need business context or acceptance criteria.
+- `docs/roadmap.md` is the current north-star execution guide. Keep new workstreams, architectural decisions, and prioritisation aligned with this document and update it when the strategy evolves.
 - `docs/features/registry.md` tracks live features. Keep it aligned with UI and API changes (update status, owners, KPI snippets) whenever you ship or deprecate a feature that it references.
 - `SAGORA_VERIFICATION_TESTS.md` captures the holistic verification plan. Update it when you add meaningful tests or change QA scope.
 
