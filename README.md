@@ -1,36 +1,55 @@
-# SagoraAI – Guide pour débutants
+# Sagora Cockpit – MVP prêt pour Vercel
 
-Bienvenue dans le dépôt **SagoraAI**. Ce guide a pour objectif d'aider un néophyte à comprendre ce projet et à savoir par où poursuivre son apprentissage.
+Ce dépôt contient la première itération du **cockpit financier Sagora**, un MVP Next.js déployable sur Vercel. L'objectif : offrir à une PME une vision consolidée de sa trésorerie, du BFR et des actions prioritaires, tout en posant une base propre pour les itérations suivantes.
 
-## Structure générale du dépôt
+## Aperçu du produit
 
-- `First note` : note textuelle très courte servant d'indice que le dépôt est correctement accessible. Aucun code n'est encore présent.
-- `README.md` : le document que vous lisez, qui décrit la structure actuelle et les prochaines étapes possibles.
+- Dashboard mono-page réalisé avec **Next.js 14** (App Router) et **Tailwind CSS**.
+- Sections principales : synthèse trésorerie, prévisions cash 90 jours, suivi BFR, plan d'actions, alertes et micro-academy.
+- Design responsive, mode sombre/clair via `next-themes`, composants isolés pour faciliter l'évolution.
 
-> À ce stade, le dépôt est essentiellement une base vide prête à être étoffée.
+## Structure
 
-## Concepts et outils à connaître
+```
+app/
+  layout.tsx        # Configuration globale, thème et metadata
+  page.tsx          # Page MVP (sections + agencement)
+components/         # Cartes, tableaux et modules réutilisables
+lib/                # Fonctions utilitaires (formatage, helpers)
+public/             # Médias statiques (vide pour l'instant)
+styles/globals.css  # Styles Tailwind + fond de page
+```
 
-Même si le contenu est minimal, le dépôt est initialisé avec Git. Voici les notions importantes :
+## Démarrage local
 
-1. **Git** : système de contrôle de version permettant de suivre l'évolution du projet. Comprendre les commandes de base (`git status`, `git add`, `git commit`, `git push`) est indispensable.
-2. **Organisation du projet** : lorsqu'un code sera ajouté, il est conseillé de respecter une structure claire (dossiers `src/`, `tests/`, etc.) pour faciliter la navigation.
+1. Installer les dépendances :
+   ```bash
+   npm install
+   ```
+2. Lancer le serveur de développement :
+   ```bash
+   npm run dev
+   ```
+3. Ouvrir [http://localhost:3000](http://localhost:3000) pour visualiser le cockpit.
 
-## Points de repère pour la suite
+> ℹ️ Aucune configuration supplémentaire n'est requise pour Vercel : le framework et les scripts sont détectés automatiquement.
 
-- Créer un dossier `src/` pour accueillir le code source principal.
-- Ajouter un dossier `docs/` pour documenter les fonctionnalités à venir.
-- Mettre en place un fichier `CONTRIBUTING.md` afin d'expliquer comment participer au projet.
-- Définir un fichier `LICENSE` pour encadrer l'utilisation du code.
+## Déploiement sur Vercel
 
-## Étapes suggérées pour l'apprentissage
+1. Pousser la branche sur GitHub/GitLab.
+2. Sur Vercel, **Importer** le repo, sélectionner le framework détecté `Next.js`.
+3. Laisser les valeurs par défaut :
+   - Build command : `npm run build`
+   - Output directory : `.next`
+4. Définir si besoin les variables d'environnement (ex : clés PSD2) dans `Settings > Environment Variables`.
 
-1. **Apprendre Git en pratique** :
-   - Initialiser un nouveau fichier dans `src/`.
-   - Faire des commits réguliers.
-   - Explorer l'historique avec `git log`.
-2. **Choisir une première fonctionnalité** : par exemple, commencer à coder un module simple dans `src/` (script Python, service web, etc.).
-3. **Documenter au fur et à mesure** : compléter le dossier `docs/` avec des tutoriels et des guides d'installation lorsque les fonctionnalités apparaissent.
-4. **Mettre en place des tests** : dès qu'une portion de code est écrite, ajouter un dossier `tests/` et configurer un outil de tests (pytest, unittest, etc.).
+Le MVP est statique, aucune base de données n'est requise pour cette première itération.
 
-En résumé, ce dépôt est un point de départ. Utilisez-le pour apprendre les bonnes pratiques de structuration d'un projet logiciel tout en mettant en place progressivement les outils nécessaires.
+## Prochaines étapes suggérées
+
+- Connecter les données réelles (banques, ERP) via API et injecter les datasets dans les composants.
+- Ajouter une authentification (Auth0/Keycloak) et une gestion de rôles.
+- Mettre en place les tests unitaires (`@testing-library/react`) et end-to-end (Playwright) avant de brancher sur CI.
+- Structurer l'état applicatif (React Query/TanStack Query) pour accueillir des appels API.
+
+Pour plus de contexte stratégique, consultez le fichier [`SAGORA_APP_CODEX.md`](./SAGORA_APP_CODEX.md).
