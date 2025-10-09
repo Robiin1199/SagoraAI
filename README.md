@@ -18,7 +18,19 @@ components/         # Cartes, tableaux et modules réutilisables
 lib/                # Fonctions utilitaires (formatage, helpers)
 public/             # Médias statiques (vide pour l'instant)
 styles/globals.css  # Styles Tailwind + fond de page
+docs/features/      # Documentation générée du registre de fonctionnalités
+scripts/            # Scripts d'automatisation (génération docs)
 ```
+
+### Registre des fonctionnalités
+
+Un registre centralise l'état des fonctionnalités clés dans `lib/features/registry.json`. La documentation associée est générée automatiquement dans `docs/features/registry.md` via :
+
+```bash
+npm run generate:features
+```
+
+Ce document est à jour lors de chaque itération produit et peut être intégré aux revues roadmap.
 
 ## Démarrage local
 

@@ -1,0 +1,224 @@
+[
+  {
+    "id": "cash-dashboard-overview",
+    "name": "Cockpit trésorerie 360°",
+    "status": "live",
+    "category": "Cash Management",
+    "owner": "Squad Frontend & Data",
+    "release": "2024-05-08",
+    "description": "Vue consolidée cash/burn/runway alimentée par l'agrégation PSD2 et les prévisions 90 jours.",
+    "tags": ["cash", "runway", "alerts"],
+    "metrics": [
+      {
+        "name": "Temps de chargement cockpit",
+        "target": "< 3 s p95",
+        "current": "2,1 s p95"
+      },
+      {
+        "name": "Adoption équipes finance",
+        "target": ">= 5 utilisateurs actifs / entité",
+        "current": "7 utilisateurs actifs / entité"
+      }
+    ],
+    "links": [
+      {
+        "label": "Codex – Cockpit Cash & BFR",
+        "url": "../SAGORA_APP_CODEX.md#132-cockpit-cash--bfr"
+      }
+    ]
+  },
+  {
+    "id": "cash-forecast-90-days",
+    "name": "Prévision cash 90 jours",
+    "status": "live",
+    "category": "Cash Management",
+    "owner": "Data Platform",
+    "release": "2024-05-08",
+    "description": "Modèle de projection cash alimenté par séries historiques + hypothèses factoring/budget.",
+    "tags": ["forecast", "scenario"],
+    "metrics": [
+      {
+        "name": "Erreur MAPE rolling 30j",
+        "target": "< 8%",
+        "current": "6,4%"
+      },
+      {
+        "name": "Latence recalcul",
+        "target": "< 2 min",
+        "current": "55 s"
+      }
+    ],
+    "dependencies": ["cash-dashboard-overview"],
+    "links": [
+      {
+        "label": "Codex – Cash Insights",
+        "url": "../SAGORA_APP_CODEX.md#136-cash-insights-iteration-en-cours"
+      }
+    ]
+  },
+  {
+    "id": "cash-scenarios",
+    "name": "Scénarios cash Base/Stress/Growth",
+    "status": "live",
+    "category": "Cash Management",
+    "owner": "Product Analytics",
+    "release": "2024-05-08",
+    "description": "Comparaison multi-scénarios pour piloter runway et déclencher plans d'action.",
+    "tags": ["scenario", "stress-test"],
+    "metrics": [
+      {
+        "name": "Temps pour basculer de scénario",
+        "target": "< 5 s",
+        "current": "3 s"
+      },
+      {
+        "name": "Taux d'utilisation",
+        "target": ">= 60% des sessions cockpit",
+        "current": "63%"
+      }
+    ],
+    "dependencies": ["cash-forecast-90-days"],
+    "links": [
+      {
+        "label": "Roadmap – V1 Pilotage Cash",
+        "url": "../components/roadmap.tsx"
+      }
+    ]
+  },
+  {
+    "id": "bfr-analytics",
+    "name": "Analytics BFR & Aging",
+    "status": "live",
+    "category": "Working Capital",
+    "owner": "RevOps",
+    "release": "2024-05-27",
+    "description": "Module interactif DSO/DPO/DIO avec segmentation aging et plan d'action par segment.",
+    "tags": ["bfr", "aging", "receivables"],
+    "metrics": [
+      {
+        "name": "DSO calculé",
+        "target": "Tolérance ±1 jour",
+        "current": "+0,6 jour"
+      },
+      {
+        "name": "Taux de segmentation remplie",
+        "target": ">= 90%",
+        "current": "92%"
+      }
+    ],
+    "dependencies": ["cash-dashboard-overview"],
+    "links": [
+      {
+        "label": "Codex – Cockpit Cash & BFR",
+        "url": "../SAGORA_APP_CODEX.md#132-cockpit-cash--bfr"
+      }
+    ]
+  },
+  {
+    "id": "action-plan-14-days",
+    "name": "Plan d'actions 14 jours",
+    "status": "live",
+    "category": "Operations",
+    "owner": "Product Ops",
+    "release": "2024-05-08",
+    "description": "Workflow priorisé Alignement finance/sales/ops pour sécuriser le cash court terme.",
+    "tags": ["playbook", "operations"],
+    "metrics": [
+      {
+        "name": "Temps moyen de clôture action",
+        "target": "< 7 jours",
+        "current": "5,2 jours"
+      },
+      {
+        "name": "Impact cash cumulé",
+        "target": ">= 150 k€ / mois",
+        "current": "168 k€ / mois"
+      }
+    ],
+    "dependencies": ["cash-dashboard-overview"],
+    "links": [
+      {
+        "label": "Codex – Playbooks",
+        "url": "../SAGORA_APP_CODEX.md#12-playbooks-exemples"
+      }
+    ]
+  },
+  {
+    "id": "academy-contextual",
+    "name": "Micro-academy contextuelle",
+    "status": "beta",
+    "category": "Enablement",
+    "owner": "Customer Success",
+    "release": "2024-05-08",
+    "description": "Modules pédagogiques alignés sur les KPI affichés pour renforcer la prise de décision.",
+    "tags": ["academy", "education"],
+    "metrics": [
+      {
+        "name": "Taux de complétion",
+        "target": ">= 70%",
+        "current": "58%"
+      },
+      {
+        "name": "CSAT module",
+        "target": ">= 4.5/5",
+        "current": "4.3/5"
+      }
+    ],
+    "dependencies": ["action-plan-14-days"],
+    "links": [
+      {
+        "label": "Codex – Academy",
+        "url": "../SAGORA_APP_CODEX.md#134-academy--aide-contextuelle"
+      }
+    ],
+    "notes": "Phase beta auprès d'un panel de 12 PME. Industrialisation prévue avec la V2 Collaboration."
+  },
+  {
+    "id": "automated-dunning",
+    "name": "Relances clients automatisées",
+    "status": "in-progress",
+    "category": "Working Capital",
+    "owner": "Revenue Operations",
+    "description": "Orchestration emails/SMS + tâches CRM déclenchées par aging et seuils de risque.",
+    "tags": ["bfr", "automation"],
+    "metrics": [
+      {
+        "name": "Réduction DSO",
+        "target": "-5 jours vs baseline",
+        "current": "En construction"
+      }
+    ],
+    "dependencies": ["bfr-analytics", "action-plan-14-days"],
+    "links": [
+      {
+        "label": "Roadmap – V2 Collaboration",
+        "url": "../components/roadmap.tsx"
+      }
+    ],
+    "notes": "Ciblé pour T3 2024; dépend du moteur emailing transactionnel."
+  },
+  {
+    "id": "rbac-external-roles",
+    "name": "RBAC rôles externes",
+    "status": "planned",
+    "category": "Security",
+    "owner": "Platform Engineering",
+    "description": "Gestion fine des rôles External/Viewer avec masquage IBAN et restrictions de périmètre.",
+    "tags": ["security", "rbac"],
+    "metrics": [
+      {
+        "name": "Incidents d'accès non autorisé",
+        "target": "0 incident",
+        "current": "0 incident"
+      }
+    ],
+    "dependencies": ["cash-dashboard-overview"],
+    "links": [
+      {
+        "label": "Codex – Sécurité & Accès",
+        "url": "../SAGORA_APP_CODEX.md#133-securite--acces"
+      }
+    ],
+    "notes": "Spécifications en revue sécurité interne, ciblé post-intégration Auth0."
+  }
+]
