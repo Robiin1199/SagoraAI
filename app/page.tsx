@@ -151,7 +151,7 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]" id="actions">
+        <section className="mt-12 grid gap-6" id="actions">
           <div className="rounded-3xl border border-white/60 bg-white/90 p-6 shadow-card dark:border-slate-800 dark:bg-slate-900/80">
             <header className="flex items-center justify-between">
               <div>
