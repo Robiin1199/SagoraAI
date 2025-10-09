@@ -5,9 +5,9 @@
 ## 0) Métadonnées
 - Produit : Sagora – Cockpit financier PME
 - Propriétaire : Équipe Produit Sagora
-- Dernière MAJ : 2024-05-08
+- Dernière MAJ : 2024-05-27
 - Statut : En cours
-- Version : 0.2
+- Version : 0.3
 
 ## 1) Contexte & Vision (Contexte)
 - Problème : vision financière morcelée (banques, compta, ERP), lenteur de décision, manque d’actions concrètes.
@@ -90,7 +90,7 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 
 ### 13.2 Cockpit Cash & BFR
 - [x] Dashboard Cash J+0/J+7/J+30/J+90 — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>
-- [ ] DSO/DPO/DIO + aging — **EN COURS** (tableau statique livré, aging interactif à brancher)
+- [x] DSO/DPO/DIO + aging — **REMPLIE** | Owner: Frontend | Date: 2024-05-27 | PR: <à compléter> (module interactif avec segmentation + plan d’action)
 - [x] Alertes basiques (seuils) — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>
 - [ ] Export PDF/CSV — **NON REMPLIE**
 
