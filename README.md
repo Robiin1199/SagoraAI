@@ -6,6 +6,8 @@ Ce dépôt contient la première itération du **cockpit financier Sagora**, un 
 
 - Dashboard mono-page réalisé avec **Next.js 14** (App Router) et **Tailwind CSS**.
 - Sections principales : synthèse trésorerie, prévisions cash 90 jours, suivi BFR, plan d'actions, alertes et micro-academy.
+- Données 100% simulées côté front : aucune connexion PSD2, ERP ou CRM n'est fournie dans cette version.
+- Authentification de démonstration uniquement : création/connexion stockées en localStorage (pas d'authentification serveur).
 - Design responsive, mode sombre/clair via `next-themes`, composants isolés pour faciliter l'évolution.
 
 ## Structure
