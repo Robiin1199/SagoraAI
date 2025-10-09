@@ -181,7 +181,7 @@ export default async function Page() {
               </span>
             </header>
             <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
-              Actions simulées pour la démonstration (pas encore reliées au CRM ni à un suivi d'impact réel).
+              Actions simulées pour la démonstration (pas encore reliées au CRM ni à un suivi d&apos;impact réel).
             </p>
             <ActionPlan />
           </div>
