@@ -15,7 +15,7 @@ export function InvoiceUpload() {
         Déposez un fichier CSV exporté de votre outil de facturation. Nous normalisons automatiquement les colonnes.
       </p>
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <UploadButton<AppFileRouter>
+        <UploadButton<AppFileRouter, "invoices">
           endpoint="invoices"
           className="ut-button:bg-primary-600 ut-button:text-white ut-button:rounded-full ut-button:px-4 ut-button:py-2 ut-button:font-semibold"
           onClientUploadComplete={(res) => {
