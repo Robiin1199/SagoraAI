@@ -46,7 +46,7 @@ function createHighlightMetrics(snapshot: CashSnapshot | null): HighlightMetricP
       delta: snapshot.cashDelta30d,
       icon: <PiggyBank className="h-6 w-6" />,
       color: "primary",
-      description: "Toutes banques agrégées (BNP, Qonto, HSBC).",
+      description: "Données de démonstration agrégées localement (aucune banque connectée).",
       currency: snapshot.currency
     },
     {
@@ -55,7 +55,7 @@ function createHighlightMetrics(snapshot: CashSnapshot | null): HighlightMetricP
       delta: snapshot.burnDelta30d,
       icon: <Flame className="h-6 w-6" />,
       color: "danger",
-      description: "Charges fixes + payroll + CAPEX planifié.",
+      description: "Calcul simulé à partir d'un jeu de données fictif.",
       currency: snapshot.currency
     },
     {
@@ -63,7 +63,7 @@ function createHighlightMetrics(snapshot: CashSnapshot | null): HighlightMetricP
       value: snapshot.runwayMonths,
       icon: <Gauge className="h-6 w-6" />,
       color: "warning",
-      description: "Projection avec factoring activé sur clients Top 20.",
+      description: "Projection simulée pour la démonstration (pas de moteur de scénario).",
       valueFormatter: (value: number) => `${value.toFixed(1)} mois`
     }
   ];

@@ -144,8 +144,8 @@ export function AuthControls() {
           </div>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
             {mode === "signup"
-              ? "Créez votre cockpit Sagora en quelques secondes."
-              : "Connectez-vous pour retrouver votre cockpit personnalisé."}
+              ? "Créez un accès démo (données stockées localement sur cet appareil)."
+              : "Reconnectez-vous sur cet appareil : aucune donnée n'est envoyée côté serveur."}
           </p>
 
           <form onSubmit={handleSubmit} className="mt-4 grid gap-3">

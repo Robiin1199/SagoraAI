@@ -38,7 +38,7 @@ export function TopNav() {
         <div className="flex items-center gap-3">
           <div className="hidden items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs uppercase tracking-wide text-white/70 md:flex">
             <ShieldCheck className="h-3.5 w-3.5" />
-            SSO Entreprise activé
+            Mode démo · session locale
           </div>
           <ThemeToggle />
           <AuthControls />

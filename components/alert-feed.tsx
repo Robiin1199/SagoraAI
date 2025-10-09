@@ -18,7 +18,7 @@ export function AlertFeed({ alerts }: AlertFeedProps) {
     <div className="rounded-3xl border border-white/60 bg-white/90 p-6 shadow-card dark:border-slate-800 dark:bg-slate-900/80">
       <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Alertes et signaux faibles</h3>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-        Pilotage en temps réel. Connecté à vos banques, ERP et CRM.
+        Flux de démonstration : données factices, aucun système bancaire ou ERP connecté.
       </p>
       <div className="mt-4 space-y-4">
         {!alerts?.length && (

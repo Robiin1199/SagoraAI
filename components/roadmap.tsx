@@ -31,51 +31,54 @@ const roadmap: RoadmapStep[] = [
   {
     title: "V1 – Pilotage Cash",
     description: "Stabiliser le cockpit, aligner cash + alertes, livrer scénarios.",
-    status: "done",
-    target: "Mai 2024 – Go-live pilote",
+    status: "progress",
+    target: "Mai 2024 – MVP démo",
     owner: "Squad Frontend & Data",
-    confidence: "80%",
-    focus: "Hypercare post go-live et transfert aux équipes support pour capitaliser sur les premiers retours clients.",
-    risk: "Risque de dérive fonctionnelle pendant l’hypercare si la priorisation des retours n’est pas cadencée.",
-    checkpoint: "Retro & handover du 20 mai pour clore l’itération et documenter les apprentissages.",
+    confidence: "60%",
+    focus:
+      "Livrer un cockpit crédible tout en préparant l’arrivée des flux PSD2/ERP et l’instrumentation produit.",
+    risk:
+      "Risque de perception : la démo repose sur des mocks tant que les intégrations et métriques réelles ne sont pas branchées.",
+    checkpoint: "Revue data & intégrations fin juin pour basculer du mock aux premières sources réelles.",
     items: [
       {
         label: "Connexion PSD2",
-        status: "done",
-        note: "Homologation TPP validée et flux production stabilisés."
+        status: "planned",
+        note: "Non livrée : en attente d’agrégateur et d’API backend."
       },
       {
         label: "Prévision 90 jours",
-        status: "done",
-        note: "Dashboard Cash J+0/J+90 livré (SAGORA_APP_CODEX v0.2)."
+        status: "progress",
+        note: "Visualisation Next.js alimentée par mocks; moteur de calcul à brancher."
       },
       {
         label: "Alertes seuils",
-        status: "done",
-        note: "MVP alertes cash & runway activé sur prod interne."
+        status: "progress",
+        note: "Flux statique de démonstration : pas de webhook ni de règles dynamiques."
       },
       {
         label: "Scénarios cash",
-        status: "done",
-        note: "Scénarios Base/Stress/Growth affichés dans le cockpit."
+        status: "progress",
+        note: "Comparaison front-end uniquement; simulation réelle à livrer."
       }
     ]
   },
   {
     title: "V2 – Collaboration",
     description: "Fluidifier la coordination finance/sales : workflows et relances.",
-    status: "progress",
+    status: "planned",
     target: "T3 – T4 2024",
     owner: "Product & RevOps",
-    confidence: "65%",
-    focus: "Industrialiser le pilotage BFR : aging live, workflows de validation et exports prêts pour comité de direction.",
+    confidence: "55%",
+    focus:
+      "Industrialiser le pilotage BFR : aging live, workflows de validation et exports prêts pour comité de direction.",
     risk: "Dépendance moteur emailing transactionnel et disponibilité des squads CRM pour brancher les workflows.",
     checkpoint: "Design review du 30 juin, revue adoption aging le 10 juin puis jalons mensuels jusqu’à fin octobre.",
     items: [
       {
         label: "DSO/DPO/DIO interactif",
-        status: "done",
-        note: "Module aging interactif live (segmentation + plan d’action par segment)."
+        status: "progress",
+        note: "Composant front livré avec données statiques; besoin d’API et de workflows réels."
       },
       {
         label: "Workflows validation",

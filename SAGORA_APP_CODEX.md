@@ -5,7 +5,7 @@
 ## 0) Métadonnées
 - Produit : Sagora – Cockpit financier PME
 - Propriétaire : Équipe Produit Sagora
-- Dernière MAJ : 2024-05-27
+- Dernière MAJ : 2024-05-29
 - Statut : En cours
 - Version : 0.3
 
@@ -14,11 +14,21 @@
 - Vision : “Le cockpit financier de la PME” — agrégation, prévision cash, BFR, dettes, rentabilité, recommandations actionnables.
 - Principes : Clarté, Transparence, Rigueur, Innovation, Proximité (UE).
 
+> **État actuel (MVP démo 2024-05-29)** :
+> - Cockpit front-end Next.js alimenté par jeux de données statiques/mocks (aucune connexion PSD2, ERP ou CRM).
+> - Authentification locale via `localStorage` sans serveur ni RBAC.
+> - Modules alertes, plan d’actions, scénarios et academy exposent un contenu figé destiné à la démonstration.
+
 ## 2) Portée & Non-objectifs (Analyse)
-**Portée MVP (90 jours)**
+**Portée MVP cible (90 jours)**
 - Agrégation banques (PSD2) + 1 intégration comptable prioritaire.
 - Cockpit Cash (J+0 à J+90), BFR (DSO/DPO/DIO), alertes basiques, Academy contextuelle.
 - Sécurité de base (RBAC, audit log), i18n FR/EN.
+
+**État actuel livré (démo front-end)**
+- Cockpit Cash & BFR rendus dans Next.js avec données statiques.
+- Scénarios cash et plan d’actions affichés sans moteur de calcul.
+- Auth local-only (stockage navigateur), aucune intégration externe ni i18n.
 
 **Non-objectifs MVP**
 - Consolidation multi-groupes complexe, marketplace complète, mobile natif, ISO 27001 certifiée.
@@ -32,6 +42,8 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 - Data : Kafka/Redpanda, DBT, BigQuery/Snowflake, Airflow/Prefect, MLflow, Feast, Redis.
 - Infra : Kubernetes, Terraform, Postgres OLTP, object storage (Parquet), OpenTelemetry, Prometheus/Grafana, Vault.
 - Sécurité : OIDC (Keycloak/Auth0), TLS 1.2+, KMS, WAF, SIEM; GDPR (DPA, DSR), hébergement UE.
+
+> Implémentation actuelle : seule la couche front Next.js statique est disponible dans ce dépôt; les services backend/data décrits ci-dessus ne sont pas livrés.
 
 ## 5) Modèle de Données (extrait)
 - Account(id, entity_id, provider, type, currency, iban_mask)
@@ -49,10 +61,14 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 - Versionning : /v1 ; breaking changes via nouvelle version.
 - Sécurité : OAuth2/OIDC, scopes minimaux, rate-limit par token & IP.
 
+> Pas d’API ni de backend dans la version démo : toutes les données proviennent de mocks front-end.
+
 ## 7) Sécurité & Confidentialité (bons réflexes)
 - RBAC/ABAC : scopes par entité, devise, BU ; séparation des rôles (Owner, FinanceAdmin, Analyst, Viewer, External).
 - Données : chiffrage at-rest (KMS), in-transit (TLS), rotation de clés, journaux immuables, BCP/DR (RPO/RTO définis).
 - GDPR : base légale, consentements, DSR (export/suppression), minimisation, rétention configurée.
+
+> Actuellement remplacé par un stockage local navigateur sans chiffrement ni audit.
 
 ## 8) Observabilité & Performance
 - Traces distribuées (OpenTelemetry), corrélation request-id.
@@ -61,7 +77,7 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 
 ## 9) Accessibilité, i18n, UX
 - WCAG AA, focus states, contraste, clavier.
-- i18n : FR/EN (NL/DE ultérieur); formats EU (dd/mm/yyyy, €, TVA).
+- i18n : FR uniquement dans le MVP démo (switch EN planifié); formats EU (dd/mm/yyyy, €, TVA).
 - UX : 3–5 KPI par vue, cartes à bords arrondis, hiérarchie claire, tooltips pédagogiques, Academy contextuelle.
 
 ## 10) Qualité & Code (guidelines)
@@ -89,9 +105,9 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 - [ ] Mapper plan de comptes pivot (PCG-like) — **NON REMPLIE**
 
 ### 13.2 Cockpit Cash & BFR
-- [x] Dashboard Cash J+0/J+7/J+30/J+90 — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>
-- [x] DSO/DPO/DIO + aging — **REMPLIE** | Owner: Frontend | Date: 2024-05-27 | PR: <à compléter> (module interactif avec segmentation + plan d’action)
-- [x] Alertes basiques (seuils) — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>
+- [x] Dashboard Cash J+0/J+7/J+30/J+90 — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter> | Notes: rendu Next.js alimenté par mocks (pas de PSD2).
+- [x] DSO/DPO/DIO + aging — **REMPLIE** | Owner: Frontend | Date: 2024-05-27 | PR: <à compléter> (module interactif avec segmentation + plan d’action) | Notes: données fictives.
+- [x] Alertes basiques (seuils) — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter> | Notes: flux statique, aucun webhook.
 - [ ] Export PDF/CSV — **NON REMPLIE**
 
 ### 13.3 Sécurité & Accès
@@ -99,7 +115,7 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 - [ ] Audit log (lecture/écriture, export) — **NON REMPLIE**
 
 ### 13.4 Academy & Aide Contextuelle
-- [x] Modules “Cash 101” & “Comprendre BFR” — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>
+- [x] Modules “Cash 101” & “Comprendre BFR” — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter> | Notes: contenu figé dans le front.
 
 ### 13.6 Cash Insights (itération en cours)
 - [x] Scénarios cash Base/Stress/Growth affichés dans le cockpit — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>

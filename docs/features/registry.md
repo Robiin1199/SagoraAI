@@ -1,35 +1,35 @@
 # Registre des fonctionnalités
 
-_(Dernière génération : 2025-10-09T21:46:47.728Z — exécuter `npm run generate:features` pour mettre à jour.)_
+_(Dernière génération : 2025-10-09T22:14:31.362Z — exécuter `npm run generate:features` pour mettre à jour.)_
 
 ## Vue d'ensemble
 
 | Fonctionnalité | Statut | Catégorie | Owner | Mise en service | Tags |
 | --- | --- | --- | --- | --- | --- |
-[Analytics BFR & Aging](#bfr-analytics) | Live | Working Capital | RevOps | 2024-05-27 | `bfr` `aging` `receivables`
-[Cockpit trésorerie 360°](#cash-dashboard-overview) | Live | Cash Management | Squad Frontend & Data | 2024-05-08 | `cash` `runway` `alerts`
-[Plan d'actions 14 jours](#action-plan-14-days) | Live | Operations | Product Ops | 2024-05-08 | `playbook` `operations`
-[Prévision cash 90 jours](#cash-forecast-90-days) | Live | Cash Management | Data Platform | 2024-05-08 | `forecast` `scenario`
-[Scénarios cash Base/Stress/Growth](#cash-scenarios) | Live | Cash Management | Product Analytics | 2024-05-08 | `scenario` `stress-test`
+[Analytics BFR & Aging](#bfr-analytics) | Beta | Working Capital | RevOps | 2024-05-27 | `bfr` `aging` `receivables`
+[Cockpit trésorerie 360°](#cash-dashboard-overview) | Beta | Cash Management | Squad Frontend & Data | 2024-05-08 | `cash` `runway` `alerts`
 [Micro-academy contextuelle](#academy-contextual) | Beta | Enablement | Customer Success | 2024-05-08 | `academy` `education`
-[Relances clients automatisées](#automated-dunning) | En cours | Working Capital | Revenue Operations | — | `bfr` `automation`
+[Plan d'actions 14 jours](#action-plan-14-days) | Beta | Operations | Product Ops | 2024-05-08 | `playbook` `operations`
+[Prévision cash 90 jours](#cash-forecast-90-days) | Beta | Cash Management | Data Platform | 2024-05-08 | `forecast` `scenario`
+[Scénarios cash Base/Stress/Growth](#cash-scenarios) | Beta | Cash Management | Product Analytics | 2024-05-08 | `scenario` `stress-test`
 [RBAC rôles externes](#rbac-external-roles) | Planifié | Security | Platform Engineering | — | `security` `rbac`
+[Relances clients automatisées](#automated-dunning) | Planifié | Working Capital | Revenue Operations | — | `bfr` `automation`
 
 ## Détails
 
 ## Analytics BFR & Aging (bfr-analytics)
-- **Statut** : Live
+- **Statut** : Beta
 - **Owner** : RevOps
 - **Catégorie** : Working Capital
 - **Mise en service** : 2024-05-27
 - **Tags** : `bfr` `aging` `receivables`
-Module interactif DSO/DPO/DIO avec segmentation aging et plan d'action par segment.
+Module interactif DSO/DPO/DIO reposant sur un dataset figé pour la démonstration (pas de calcul back-office).
 ### KPI & métriques
 
 | KPI | Cible | Actuel |
 | --- | --- | --- |
-DSO calculé | Tolérance ±1 jour | +0,6 jour
-Taux de segmentation remplie | >= 90% | 92%
+DSO calculé | Tolérance ±1 jour | N/A (calculs statiques)
+Taux de segmentation remplie | >= 90% | N/A (aucune donnée temps réel)
 
 ### Dépendances
 
@@ -39,93 +39,28 @@ Taux de segmentation remplie | >= 90% | 92%
 
 - [Codex – Cockpit Cash & BFR](../SAGORA_APP_CODEX.md#132-cockpit-cash--bfr)
 
+> Sous-fonctionnalités cibles : calculs DSO/DPO/DIO sur données réelles ; exports aging; workflows d’escalade connectés.
+
 
 ## Cockpit trésorerie 360° (cash-dashboard-overview)
-- **Statut** : Live
+- **Statut** : Beta
 - **Owner** : Squad Frontend & Data
 - **Catégorie** : Cash Management
 - **Mise en service** : 2024-05-08
 - **Tags** : `cash` `runway` `alerts`
-Vue consolidée cash/burn/runway alimentée par l'agrégation PSD2 et les prévisions 90 jours.
+Vue consolidée cash/burn/runway alimentée par un jeu de données de démonstration (mocks front-end).
 ### KPI & métriques
 
 | KPI | Cible | Actuel |
 | --- | --- | --- |
-Temps de chargement cockpit | < 3 s p95 | 2,1 s p95
-Adoption équipes finance | >= 5 utilisateurs actifs / entité | 7 utilisateurs actifs / entité
+Temps de chargement cockpit | < 3 s p95 | N/A (données démo statiques)
+Adoption équipes finance | >= 5 utilisateurs actifs / entité | N/A (compteur non instrumenté dans la démo)
 
 ### Documentation & références
 
 - [Codex – Cockpit Cash & BFR](../SAGORA_APP_CODEX.md#132-cockpit-cash--bfr)
 
-
-## Plan d'actions 14 jours (action-plan-14-days)
-- **Statut** : Live
-- **Owner** : Product Ops
-- **Catégorie** : Operations
-- **Mise en service** : 2024-05-08
-- **Tags** : `playbook` `operations`
-Workflow priorisé Alignement finance/sales/ops pour sécuriser le cash court terme.
-### KPI & métriques
-
-| KPI | Cible | Actuel |
-| --- | --- | --- |
-Temps moyen de clôture action | < 7 jours | 5,2 jours
-Impact cash cumulé | >= 150 k€ / mois | 168 k€ / mois
-
-### Dépendances
-
-- [cash-dashboard-overview](#cash-dashboard-overview)
-
-### Documentation & références
-
-- [Codex – Playbooks](../SAGORA_APP_CODEX.md#12-playbooks-exemples)
-
-
-## Prévision cash 90 jours (cash-forecast-90-days)
-- **Statut** : Live
-- **Owner** : Data Platform
-- **Catégorie** : Cash Management
-- **Mise en service** : 2024-05-08
-- **Tags** : `forecast` `scenario`
-Modèle de projection cash alimenté par séries historiques + hypothèses factoring/budget.
-### KPI & métriques
-
-| KPI | Cible | Actuel |
-| --- | --- | --- |
-Erreur MAPE rolling 30j | < 8% | 6,4%
-Latence recalcul | < 2 min | 55 s
-
-### Dépendances
-
-- [cash-dashboard-overview](#cash-dashboard-overview)
-
-### Documentation & références
-
-- [Codex – Cash Insights](../SAGORA_APP_CODEX.md#136-cash-insights-iteration-en-cours)
-
-
-## Scénarios cash Base/Stress/Growth (cash-scenarios)
-- **Statut** : Live
-- **Owner** : Product Analytics
-- **Catégorie** : Cash Management
-- **Mise en service** : 2024-05-08
-- **Tags** : `scenario` `stress-test`
-Comparaison multi-scénarios pour piloter runway et déclencher plans d'action.
-### KPI & métriques
-
-| KPI | Cible | Actuel |
-| --- | --- | --- |
-Temps pour basculer de scénario | < 5 s | 3 s
-Taux d'utilisation | >= 60% des sessions cockpit | 63%
-
-### Dépendances
-
-- [cash-forecast-90-days](#cash-forecast-90-days)
-
-### Documentation & références
-
-- [Roadmap – V1 Pilotage Cash](../components/roadmap.tsx)
+> Sous-fonctionnalités cibles : connexion PSD2 temps réel ; actualisation automatique ; export PDF/CSV.
 
 
 ## Micro-academy contextuelle (academy-contextual)
@@ -134,13 +69,13 @@ Taux d'utilisation | >= 60% des sessions cockpit | 63%
 - **Catégorie** : Enablement
 - **Mise en service** : 2024-05-08
 - **Tags** : `academy` `education`
-Modules pédagogiques alignés sur les KPI affichés pour renforcer la prise de décision.
+Modules pédagogiques statiques alignés sur les KPI affichés pour la démo (pas de plateforme d'apprentissage).
 ### KPI & métriques
 
 | KPI | Cible | Actuel |
 | --- | --- | --- |
-Taux de complétion | >= 70% | 58%
-CSAT module | >= 4.5/5 | 4.3/5
+Taux de complétion | >= 70% | N/A (tracking non branché)
+CSAT module | >= 4.5/5 | N/A (retours clients non collectés)
 
 ### Dépendances
 
@@ -150,32 +85,82 @@ CSAT module | >= 4.5/5 | 4.3/5
 
 - [Codex – Academy](../SAGORA_APP_CODEX.md#134-academy--aide-contextuelle)
 
-> Phase beta auprès d'un panel de 12 PME. Industrialisation prévue avec la V2 Collaboration.
+> Phase démo : contenu figé. Sous-fonctionnalités cibles : CMS éditorial, tracking engagement, personnalisation par segment.
 
 
-## Relances clients automatisées (automated-dunning)
-- **Statut** : En cours
-- **Owner** : Revenue Operations
-- **Catégorie** : Working Capital
-- **Mise en service** : —
-- **Tags** : `bfr` `automation`
-Orchestration emails/SMS + tâches CRM déclenchées par aging et seuils de risque.
+## Plan d'actions 14 jours (action-plan-14-days)
+- **Statut** : Beta
+- **Owner** : Product Ops
+- **Catégorie** : Operations
+- **Mise en service** : 2024-05-08
+- **Tags** : `playbook` `operations`
+Workflow priorisé affiché dans le front pour la démo (pas d'automatisation ni de synchronisation CRM).
 ### KPI & métriques
 
 | KPI | Cible | Actuel |
 | --- | --- | --- |
-Réduction DSO | -5 jours vs baseline | En construction
+Temps moyen de clôture action | < 7 jours | N/A (aucun suivi d'exécution)
+Impact cash cumulé | >= 150 k€ / mois | N/A (indicateur non mesuré)
 
 ### Dépendances
 
-- [bfr-analytics](#bfr-analytics)
-- [action-plan-14-days](#action-plan-14-days)
+- [cash-dashboard-overview](#cash-dashboard-overview)
 
 ### Documentation & références
 
-- [Roadmap – V2 Collaboration](../components/roadmap.tsx)
+- [Codex – Playbooks](../SAGORA_APP_CODEX.md#12-playbooks-exemples)
 
-> Ciblé pour T3 2024; dépend du moteur emailing transactionnel.
+> Sous-fonctionnalités cibles : synchronisation CRM/ERP; suivi d'exécution; notifications multi-canaux.
+
+
+## Prévision cash 90 jours (cash-forecast-90-days)
+- **Statut** : Beta
+- **Owner** : Data Platform
+- **Catégorie** : Cash Management
+- **Mise en service** : 2024-05-08
+- **Tags** : `forecast` `scenario`
+Projection cash simulée côté front (mock) sans moteur de calcul réel ni intégration data.
+### KPI & métriques
+
+| KPI | Cible | Actuel |
+| --- | --- | --- |
+Erreur MAPE rolling 30j | < 8% | N/A (pas de modèle en production)
+Latence recalcul | < 2 min | N/A (rafraîchissement non implémenté)
+
+### Dépendances
+
+- [cash-dashboard-overview](#cash-dashboard-overview)
+
+### Documentation & références
+
+- [Codex – Cash Insights](../SAGORA_APP_CODEX.md#136-cash-insights-iteration-en-cours)
+
+> Sous-fonctionnalités cibles : moteur de prévision relié à la data warehouse ; gestion des hypothèses; export des scénarios.
+
+
+## Scénarios cash Base/Stress/Growth (cash-scenarios)
+- **Statut** : Beta
+- **Owner** : Product Analytics
+- **Catégorie** : Cash Management
+- **Mise en service** : 2024-05-08
+- **Tags** : `scenario` `stress-test`
+Comparaison multi-scénarios affichée en front sur données simulées (aucun moteur de stress-test).
+### KPI & métriques
+
+| KPI | Cible | Actuel |
+| --- | --- | --- |
+Temps pour basculer de scénario | < 5 s | N/A (interactions locales uniquement)
+Taux d'utilisation | >= 60% des sessions cockpit | N/A (tracking usage absent)
+
+### Dépendances
+
+- [cash-forecast-90-days](#cash-forecast-90-days)
+
+### Documentation & références
+
+- [Roadmap – V1 Pilotage Cash](../components/roadmap.tsx)
+
+> Sous-fonctionnalités cibles : moteur de simulation branché aux hypothèses; sauvegarde de scénarios; partage collaboratif.
 
 
 ## RBAC rôles externes (rbac-external-roles)
@@ -199,4 +184,29 @@ Incidents d'accès non autorisé | 0 incident | 0 incident
 
 - [Codex – Sécurité & Accès](../SAGORA_APP_CODEX.md#133-securite--acces)
 
-> Spécifications en revue sécurité interne, ciblé post-intégration Auth0.
+> Spécifications en revue sécurité interne, ciblé post-intégration Auth0. Dépend du remplacement de l'authentification locale de démo.
+
+
+## Relances clients automatisées (automated-dunning)
+- **Statut** : Planifié
+- **Owner** : Revenue Operations
+- **Catégorie** : Working Capital
+- **Mise en service** : —
+- **Tags** : `bfr` `automation`
+Orchestration emails/SMS + tâches CRM déclenchées par aging et seuils de risque (non démarré dans ce dépôt).
+### KPI & métriques
+
+| KPI | Cible | Actuel |
+| --- | --- | --- |
+Réduction DSO | -5 jours vs baseline | Non démarré (bloqué par l'absence d'intégration emailing/CRM)
+
+### Dépendances
+
+- [bfr-analytics](#bfr-analytics)
+- [action-plan-14-days](#action-plan-14-days)
+
+### Documentation & références
+
+- [Roadmap – V2 Collaboration](../components/roadmap.tsx)
+
+> Ciblé pour T3 2024; dépend du moteur emailing transactionnel. Sous-fonctionnalités cibles : triggers aging, templates multicanaux, synchronisation CRM.

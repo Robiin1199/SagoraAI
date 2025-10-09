@@ -2,22 +2,22 @@
   {
     "id": "cash-dashboard-overview",
     "name": "Cockpit trésorerie 360°",
-    "status": "live",
+    "status": "beta",
     "category": "Cash Management",
     "owner": "Squad Frontend & Data",
     "release": "2024-05-08",
-    "description": "Vue consolidée cash/burn/runway alimentée par l'agrégation PSD2 et les prévisions 90 jours.",
+    "description": "Vue consolidée cash/burn/runway alimentée par un jeu de données de démonstration (mocks front-end).",
     "tags": ["cash", "runway", "alerts"],
     "metrics": [
       {
         "name": "Temps de chargement cockpit",
         "target": "< 3 s p95",
-        "current": "2,1 s p95"
+        "current": "N/A (données démo statiques)"
       },
       {
         "name": "Adoption équipes finance",
         "target": ">= 5 utilisateurs actifs / entité",
-        "current": "7 utilisateurs actifs / entité"
+        "current": "N/A (compteur non instrumenté dans la démo)"
       }
     ],
     "links": [
@@ -25,27 +25,28 @@
         "label": "Codex – Cockpit Cash & BFR",
         "url": "../SAGORA_APP_CODEX.md#132-cockpit-cash--bfr"
       }
-    ]
+    ],
+    "notes": "Sous-fonctionnalités cibles : connexion PSD2 temps réel ; actualisation automatique ; export PDF/CSV."
   },
   {
     "id": "cash-forecast-90-days",
     "name": "Prévision cash 90 jours",
-    "status": "live",
+    "status": "beta",
     "category": "Cash Management",
     "owner": "Data Platform",
     "release": "2024-05-08",
-    "description": "Modèle de projection cash alimenté par séries historiques + hypothèses factoring/budget.",
+    "description": "Projection cash simulée côté front (mock) sans moteur de calcul réel ni intégration data.",
     "tags": ["forecast", "scenario"],
     "metrics": [
       {
         "name": "Erreur MAPE rolling 30j",
         "target": "< 8%",
-        "current": "6,4%"
+        "current": "N/A (pas de modèle en production)"
       },
       {
         "name": "Latence recalcul",
         "target": "< 2 min",
-        "current": "55 s"
+        "current": "N/A (rafraîchissement non implémenté)"
       }
     ],
     "dependencies": ["cash-dashboard-overview"],
@@ -54,27 +55,28 @@
         "label": "Codex – Cash Insights",
         "url": "../SAGORA_APP_CODEX.md#136-cash-insights-iteration-en-cours"
       }
-    ]
+    ],
+    "notes": "Sous-fonctionnalités cibles : moteur de prévision relié à la data warehouse ; gestion des hypothèses; export des scénarios."
   },
   {
     "id": "cash-scenarios",
     "name": "Scénarios cash Base/Stress/Growth",
-    "status": "live",
+    "status": "beta",
     "category": "Cash Management",
     "owner": "Product Analytics",
     "release": "2024-05-08",
-    "description": "Comparaison multi-scénarios pour piloter runway et déclencher plans d'action.",
+    "description": "Comparaison multi-scénarios affichée en front sur données simulées (aucun moteur de stress-test).",
     "tags": ["scenario", "stress-test"],
     "metrics": [
       {
         "name": "Temps pour basculer de scénario",
         "target": "< 5 s",
-        "current": "3 s"
+        "current": "N/A (interactions locales uniquement)"
       },
       {
         "name": "Taux d'utilisation",
         "target": ">= 60% des sessions cockpit",
-        "current": "63%"
+        "current": "N/A (tracking usage absent)"
       }
     ],
     "dependencies": ["cash-forecast-90-days"],
@@ -83,27 +85,28 @@
         "label": "Roadmap – V1 Pilotage Cash",
         "url": "../components/roadmap.tsx"
       }
-    ]
+    ],
+    "notes": "Sous-fonctionnalités cibles : moteur de simulation branché aux hypothèses; sauvegarde de scénarios; partage collaboratif."
   },
   {
     "id": "bfr-analytics",
     "name": "Analytics BFR & Aging",
-    "status": "live",
+    "status": "beta",
     "category": "Working Capital",
     "owner": "RevOps",
     "release": "2024-05-27",
-    "description": "Module interactif DSO/DPO/DIO avec segmentation aging et plan d'action par segment.",
+    "description": "Module interactif DSO/DPO/DIO reposant sur un dataset figé pour la démonstration (pas de calcul back-office).",
     "tags": ["bfr", "aging", "receivables"],
     "metrics": [
       {
         "name": "DSO calculé",
         "target": "Tolérance ±1 jour",
-        "current": "+0,6 jour"
+        "current": "N/A (calculs statiques)"
       },
       {
         "name": "Taux de segmentation remplie",
         "target": ">= 90%",
-        "current": "92%"
+        "current": "N/A (aucune donnée temps réel)"
       }
     ],
     "dependencies": ["cash-dashboard-overview"],
@@ -112,27 +115,28 @@
         "label": "Codex – Cockpit Cash & BFR",
         "url": "../SAGORA_APP_CODEX.md#132-cockpit-cash--bfr"
       }
-    ]
+    ],
+    "notes": "Sous-fonctionnalités cibles : calculs DSO/DPO/DIO sur données réelles ; exports aging; workflows d’escalade connectés."
   },
   {
     "id": "action-plan-14-days",
     "name": "Plan d'actions 14 jours",
-    "status": "live",
+    "status": "beta",
     "category": "Operations",
     "owner": "Product Ops",
     "release": "2024-05-08",
-    "description": "Workflow priorisé Alignement finance/sales/ops pour sécuriser le cash court terme.",
+    "description": "Workflow priorisé affiché dans le front pour la démo (pas d'automatisation ni de synchronisation CRM).",
     "tags": ["playbook", "operations"],
     "metrics": [
       {
         "name": "Temps moyen de clôture action",
         "target": "< 7 jours",
-        "current": "5,2 jours"
+        "current": "N/A (aucun suivi d'exécution)"
       },
       {
         "name": "Impact cash cumulé",
         "target": ">= 150 k€ / mois",
-        "current": "168 k€ / mois"
+        "current": "N/A (indicateur non mesuré)"
       }
     ],
     "dependencies": ["cash-dashboard-overview"],
@@ -141,7 +145,8 @@
         "label": "Codex – Playbooks",
         "url": "../SAGORA_APP_CODEX.md#12-playbooks-exemples"
       }
-    ]
+    ],
+    "notes": "Sous-fonctionnalités cibles : synchronisation CRM/ERP; suivi d'exécution; notifications multi-canaux."
   },
   {
     "id": "academy-contextual",
@@ -150,18 +155,18 @@
     "category": "Enablement",
     "owner": "Customer Success",
     "release": "2024-05-08",
-    "description": "Modules pédagogiques alignés sur les KPI affichés pour renforcer la prise de décision.",
+    "description": "Modules pédagogiques statiques alignés sur les KPI affichés pour la démo (pas de plateforme d'apprentissage).",
     "tags": ["academy", "education"],
     "metrics": [
       {
         "name": "Taux de complétion",
         "target": ">= 70%",
-        "current": "58%"
+        "current": "N/A (tracking non branché)"
       },
       {
         "name": "CSAT module",
         "target": ">= 4.5/5",
-        "current": "4.3/5"
+        "current": "N/A (retours clients non collectés)"
       }
     ],
     "dependencies": ["action-plan-14-days"],
@@ -171,21 +176,21 @@
         "url": "../SAGORA_APP_CODEX.md#134-academy--aide-contextuelle"
       }
     ],
-    "notes": "Phase beta auprès d'un panel de 12 PME. Industrialisation prévue avec la V2 Collaboration."
+    "notes": "Phase démo : contenu figé. Sous-fonctionnalités cibles : CMS éditorial, tracking engagement, personnalisation par segment."
   },
   {
     "id": "automated-dunning",
     "name": "Relances clients automatisées",
-    "status": "in-progress",
+    "status": "planned",
     "category": "Working Capital",
     "owner": "Revenue Operations",
-    "description": "Orchestration emails/SMS + tâches CRM déclenchées par aging et seuils de risque.",
+    "description": "Orchestration emails/SMS + tâches CRM déclenchées par aging et seuils de risque (non démarré dans ce dépôt).",
     "tags": ["bfr", "automation"],
     "metrics": [
       {
         "name": "Réduction DSO",
         "target": "-5 jours vs baseline",
-        "current": "En construction"
+        "current": "Non démarré (bloqué par l'absence d'intégration emailing/CRM)"
       }
     ],
     "dependencies": ["bfr-analytics", "action-plan-14-days"],
@@ -195,7 +200,7 @@
         "url": "../components/roadmap.tsx"
       }
     ],
-    "notes": "Ciblé pour T3 2024; dépend du moteur emailing transactionnel."
+    "notes": "Ciblé pour T3 2024; dépend du moteur emailing transactionnel. Sous-fonctionnalités cibles : triggers aging, templates multicanaux, synchronisation CRM."
   },
   {
     "id": "rbac-external-roles",
@@ -219,6 +224,6 @@
         "url": "../SAGORA_APP_CODEX.md#133-securite--acces"
       }
     ],
-    "notes": "Spécifications en revue sécurité interne, ciblé post-intégration Auth0."
+    "notes": "Spécifications en revue sécurité interne, ciblé post-intégration Auth0. Dépend du remplacement de l'authentification locale de démo."
   }
 ]
