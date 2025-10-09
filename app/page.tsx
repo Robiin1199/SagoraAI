@@ -40,7 +40,6 @@ const revenuePerformance = [
 ];
 
 export default async function Page() {
-  let status: "loading" | "success" | "error" = "loading";
   let errorMessage: string | null = null;
 
   let snapshot: CashSnapshot | null = null;
@@ -57,12 +56,12 @@ export default async function Page() {
     snapshot = snapshotData;
     forecast = forecastData;
     scenarios = scenariosData;
-    status = "success";
   } catch (error) {
     console.error("Erreur lors du chargement du cockpit cash", error);
     errorMessage = error instanceof Error ? error.message : "Une erreur inattendue est survenue.";
-    status = "error";
   }
+
+  const isLoading = !snapshot && !errorMessage;
 
   const highlightMetrics = snapshot
     ? [
@@ -108,7 +107,7 @@ export default async function Page() {
     <div className="flex min-h-screen flex-col">
       <TopNav />
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 pb-16">
-        {status === "error" && (
+        {errorMessage && (
           <div className="mt-6 rounded-3xl border border-danger/20 bg-danger/10 p-4 text-sm text-danger">
             Impossible de récupérer les données financières : {errorMessage}
           </div>
@@ -147,10 +146,12 @@ export default async function Page() {
             </div>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {status === "loading" && !highlightMetrics.length ? (
+            {isLoading ? (
               <div className="md:col-span-3 text-sm text-slate-400">Chargement des métriques...</div>
-            ) : (
+            ) : highlightMetrics.length ? (
               highlightMetrics.map((metric) => <HighlightMetric key={metric.label} {...metric} />)
+            ) : (
+              <div className="md:col-span-3 text-sm text-slate-400">Aucune métrique disponible.</div>
             )}
           </div>
         </section>
