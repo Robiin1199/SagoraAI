@@ -18,15 +18,60 @@ export const computeMetrics = inngest.createFunction(
       where: { organizationId }
     });
 
+    const isDecimalLike = (value: unknown): value is { toNumber(): number } => {
+      return (
+        typeof value === "object" &&
+        value !== null &&
+        typeof (value as { toNumber?: unknown }).toNumber === "function"
+      );
+    };
+
+    const toNumber = (value: unknown): number => {
+      if (value === null || value === undefined) {
+        return 0;
+      }
+
+      if (typeof value === "number") {
+        return value;
+      }
+
+      if (typeof value === "string") {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : 0;
+      }
+
+      if (typeof value === "bigint") {
+        return Number(value);
+      }
+
+      if (isDecimalLike(value)) {
+        const parsed = value.toNumber();
+        return Number.isFinite(parsed) ? parsed : 0;
+      }
+
+      const fallback = Number(value);
+      return Number.isFinite(fallback) ? fallback : 0;
+    };
+
+    type RawInvoice = (typeof invoices)[number];
+
     type InvoiceRecord = {
-      amount: number | string;
+      amount: number;
       issuedAt: Date;
       dueAt: Date | null;
       paidAt: Date | null;
       status: string;
     };
 
-    const typedInvoices = invoices as InvoiceRecord[];
+    const typedInvoices: InvoiceRecord[] = invoices.map(
+      (invoice: RawInvoice): InvoiceRecord => ({
+        amount: toNumber(invoice.amount),
+        issuedAt: invoice.issuedAt,
+        dueAt: invoice.dueAt,
+        paidAt: invoice.paidAt,
+        status: String(invoice.status)
+      })
+    );
 
     const paidCash = typedInvoices
       .filter((invoice) => invoice.paidAt)
