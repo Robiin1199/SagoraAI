@@ -3,6 +3,7 @@ import { AcademyModules } from "@/components/academy-modules";
 import { AlertFeed } from "@/components/alert-feed";
 import { BfrTable } from "@/components/bfr-table";
 import { ForecastChart } from "@/components/forecast-chart";
+import { CashScenarios } from "@/components/cash-scenarios";
 import { HighlightMetric } from "@/components/highlight-metric";
 import { Roadmap } from "@/components/roadmap";
 import { TopNav } from "@/components/top-nav";
@@ -121,6 +122,7 @@ export default function Page() {
             <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
               Hypothèses : factoring activé, budget payroll validé, CAPEX maîtrisé. Prochain recalcul dans 55 minutes.
             </p>
+            <CashScenarios />
           </div>
           <AlertFeed />
         </section>

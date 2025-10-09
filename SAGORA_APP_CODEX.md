@@ -4,10 +4,10 @@
 
 ## 0) Métadonnées
 - Produit : Sagora – Cockpit financier PME
-- Propriétaire : <Nom PM>
-- Dernière MAJ : <YYYY-MM-DD>
+- Propriétaire : Équipe Produit Sagora
+- Dernière MAJ : 2024-05-08
 - Statut : En cours
-- Version : 0.1
+- Version : 0.2
 
 ## 1) Contexte & Vision (Contexte)
 - Problème : vision financière morcelée (banques, compta, ERP), lenteur de décision, manque d’actions concrètes.
@@ -89,9 +89,9 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 - [ ] Mapper plan de comptes pivot (PCG-like) — **NON REMPLIE**
 
 ### 13.2 Cockpit Cash & BFR
-- [ ] Dashboard Cash J+0/J+7/J+30/J+90 — **NON REMPLIE**
-- [ ] DSO/DPO/DIO + aging — **NON REMPLIE**
-- [ ] Alertes basiques (seuils) — **NON REMPLIE**
+- [x] Dashboard Cash J+0/J+7/J+30/J+90 — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>
+- [ ] DSO/DPO/DIO + aging — **EN COURS** (tableau statique livré, aging interactif à brancher)
+- [x] Alertes basiques (seuils) — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>
 - [ ] Export PDF/CSV — **NON REMPLIE**
 
 ### 13.3 Sécurité & Accès
@@ -99,7 +99,10 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 - [ ] Audit log (lecture/écriture, export) — **NON REMPLIE**
 
 ### 13.4 Academy & Aide Contextuelle
-- [ ] Modules “Cash 101” & “Comprendre BFR” — **NON REMPLIE**
+- [x] Modules “Cash 101” & “Comprendre BFR” — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>
+
+### 13.6 Cash Insights (itération en cours)
+- [x] Scénarios cash Base/Stress/Growth affichés dans le cockpit — **REMPLIE** | Owner: Frontend | Date: 2024-05-08 | PR: <à compléter>
 
 ### 13.5 Observabilité
 - [ ] Traces OTel + dashboards Grafana — **NON REMPLIE**
