@@ -25,6 +25,7 @@ Sagora devient le copilote cash-flow des PME européennes en livrant une expéri
 1. Intégrer agrégateurs PSD2 (Budget Insight/Token.io) avec consentement utilisateur, webhooks transactions, rafraîchissement automatique et gestion des erreurs bancaires.
 2. Normaliser flux bancaires dans le data model pivot, rapprocher soldes en quasi temps réel et exposer API cockpit cash branchée à l'UI existante.
 3. Livrer exports PDF/CSV pour les vues cockpit (soldes consolidés, cash-in/out, positions multi-banque) avec historisation et traçabilité.
+   - 2025-10-09 : Génération CSV/PDF côté front livrée pour les données mockées du cockpit (manque encore la signature et l'archivage back-end).
 
 ### Étape C – Analytics BFR
 1. Développer moteur de calcul DSO/DPO/DIO basé sur écritures comptables et facturation clients/fournisseurs.
