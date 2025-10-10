@@ -51,6 +51,7 @@ Taux de segmentation remplie | >= 90% | N/A (aucune donnée temps réel)
 - **Tags** : `cash` `runway` `alerts`
 Vue consolidée cash/burn/runway alimentée par un jeu de données de démonstration (mocks front-end).
 ### Mises à jour récentes
+- 2025-10-09 : API GraphQL `/api/graphql` (Next.js) fournit les résumés cash/forecast/scénarios depuis le backend (données simulées).
 - 2025-10-09 : Ajout d'un module d'export CSV/PDF directement depuis le cockpit (données mockées, sans signature encore).
 ### KPI & métriques
 
@@ -122,7 +123,7 @@ Impact cash cumulé | >= 150 k€ / mois | N/A (indicateur non mesuré)
 - **Catégorie** : Cash Management
 - **Mise en service** : 2024-05-08
 - **Tags** : `forecast` `scenario`
-Projection cash simulée côté front (mock) sans moteur de calcul réel ni intégration data.
+Projection cash simulée servie via la route GraphQL `/api/graphql` (données backend déterministes, toujours sans moteur temps réel).
 ### KPI & métriques
 
 | KPI | Cible | Actuel |
@@ -147,7 +148,7 @@ Latence recalcul | < 2 min | N/A (rafraîchissement non implémenté)
 - **Catégorie** : Cash Management
 - **Mise en service** : 2024-05-08
 - **Tags** : `scenario` `stress-test`
-Comparaison multi-scénarios affichée en front sur données simulées (aucun moteur de stress-test).
+Comparaison multi-scénarios désormais restituée par la route GraphQL `/api/graphql` (données simulées, aucun moteur de stress-test).
 ### KPI & métriques
 
 | KPI | Cible | Actuel |

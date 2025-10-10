@@ -8,16 +8,18 @@
     "start": "next start",
     "lint": "next lint",
     "generate:features": "node scripts/generate-feature-docs.mjs",
-    "test:unit": "tsx --test \"tests/unit/**/*.test.ts\""
+    "test:unit": "NODE_OPTIONS=--conditions=react-server tsx --test \"tests/unit/**/*.test.ts\""
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "graphql": "^16.11.0",
     "jspdf": "^3.0.3",
     "lucide-react": "^0.379.0",
     "next": "^14.2.5",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
