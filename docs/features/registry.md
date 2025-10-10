@@ -1,6 +1,6 @@
 # Registre des fonctionnalités
 
-_(Dernière génération : 2025-10-09T22:14:31.362Z — exécuter `npm run generate:features` pour mettre à jour.)_
+_(Dernière génération : 2025-10-09T22:14:31.362Z — exécuter `npm run generate:features` pour mettre à jour. Mise à jour manuelle 2025-10-09 : suivi des exports cockpit CSV/PDF.)_
 
 ## Vue d'ensemble
 
@@ -12,6 +12,7 @@ _(Dernière génération : 2025-10-09T22:14:31.362Z — exécuter `npm run gener
 [Plan d'actions 14 jours](#action-plan-14-days) | Beta | Operations | Product Ops | 2024-05-08 | `playbook` `operations`
 [Prévision cash 90 jours](#cash-forecast-90-days) | Beta | Cash Management | Data Platform | 2024-05-08 | `forecast` `scenario`
 [Scénarios cash Base/Stress/Growth](#cash-scenarios) | Beta | Cash Management | Product Analytics | 2024-05-08 | `scenario` `stress-test`
+[Exports cockpit CSV/PDF](#cash-exports) | En cours | Cash Management | Squad Frontend & Data | 2025-10-09 | `export` `pdf` `csv`
 [RBAC rôles externes](#rbac-external-roles) | Planifié | Security | Platform Engineering | — | `security` `rbac`
 [Relances clients automatisées](#automated-dunning) | Planifié | Working Capital | Revenue Operations | — | `bfr` `automation`
 
@@ -49,6 +50,8 @@ Taux de segmentation remplie | >= 90% | N/A (aucune donnée temps réel)
 - **Mise en service** : 2024-05-08
 - **Tags** : `cash` `runway` `alerts`
 Vue consolidée cash/burn/runway alimentée par un jeu de données de démonstration (mocks front-end).
+### Mises à jour récentes
+- 2025-10-09 : Ajout d'un module d'export CSV/PDF directement depuis le cockpit (données mockées, sans signature encore).
 ### KPI & métriques
 
 | KPI | Cible | Actuel |
@@ -161,6 +164,33 @@ Taux d'utilisation | >= 60% des sessions cockpit | N/A (tracking usage absent)
 - [Roadmap – V1 Pilotage Cash](../components/roadmap.tsx)
 
 > Sous-fonctionnalités cibles : moteur de simulation branché aux hypothèses; sauvegarde de scénarios; partage collaboratif.
+
+
+## Exports cockpit CSV/PDF (cash-exports)
+- **Statut** : En cours
+- **Owner** : Squad Frontend & Data
+- **Catégorie** : Cash Management
+- **Mise en service** : 2025-10-09
+- **Tags** : `export` `pdf` `csv`
+Génération locale des exports CSV et PDF sur la base des données mockées du cockpit, disponible depuis le module Prévision cash.
+### KPI & métriques
+
+| KPI | Cible | Actuel |
+| --- | --- | --- |
+| Taux d'export mensuel | >= 70% des comptes actifs | N/A (tracking non branché dans la démo) |
+| Temps de génération | < 5 s | ~1 s (front, dataset mock) |
+
+### Dépendances
+
+- [cash-dashboard-overview](#cash-dashboard-overview)
+- [cash-forecast-90-days](#cash-forecast-90-days)
+
+### Documentation & références
+
+- [Roadmap – Étape B](../roadmap.md#étape-b--cockpit-cash--réel)
+- [Codex – Cockpit Cash & BFR](../SAGORA_APP_CODEX.md#132-cockpit-cash--bfr)
+
+> Prochaines étapes : brancher l'export sur le service de signature + stockage versionné.
 
 
 ## RBAC rôles externes (rbac-external-roles)

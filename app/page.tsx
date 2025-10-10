@@ -7,6 +7,7 @@ import { ForecastChart } from "@/components/forecast-chart";
 import { HighlightMetric } from "@/components/highlight-metric";
 import { Roadmap } from "@/components/roadmap";
 import { TopNav } from "@/components/top-nav";
+import { CashExportControls } from "@/components/cash-export";
 import {
   getCashForecast,
   getCashScenarios,
@@ -121,14 +122,22 @@ export default async function Page() {
 
         <section className="mt-12 grid gap-6 md:grid-cols-[1.1fr_0.9fr]" id="cash">
           <div className="rounded-3xl border border-white/60 bg-white/90 p-6 shadow-card dark:border-slate-800 dark:bg-slate-900/80">
-            <header className="flex items-center justify-between">
+            <header className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
                 <p className="text-xs uppercase tracking-widest text-primary-500">Prévision 90 jours</p>
                 <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Cashflow prévisionnel</h3>
               </div>
-              <span className="rounded-full bg-success/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-success">
-                Risque faible
-              </span>
+              <div className="flex flex-col items-start justify-end gap-3 md:items-end">
+                <span className="rounded-full bg-success/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-success">
+                  Risque faible
+                </span>
+                <CashExportControls
+                  snapshot={snapshot}
+                  forecast={forecast}
+                  scenarios={scenarios}
+                  lastUpdateLabel={lastUpdateLabel}
+                />
+              </div>
             </header>
             <div className="mt-6">
               <ForecastChart points={forecast?.points ?? []} currency={forecastCurrency} />
