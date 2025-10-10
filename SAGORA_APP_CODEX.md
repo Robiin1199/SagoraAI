@@ -16,7 +16,7 @@
 - Principes : Clarté, Transparence, Rigueur, Innovation, Proximité (UE).
 
 > **État actuel (MVP démo 2024-05-29)** :
-> - Cockpit front-end Next.js alimenté par jeux de données statiques/mocks (aucune connexion PSD2, ERP ou CRM).
+> - Cockpit front-end Next.js alimenté par une API GraphQL interne (données simulées, aucune connexion PSD2/ERP/CRM).
 > - Authentification locale via `localStorage` sans serveur ni RBAC.
 > - Modules alertes, plan d’actions, scénarios et academy exposent un contenu figé destiné à la démonstration.
 
@@ -62,7 +62,7 @@ Sources → Ingestion (ETL temps réel / batch) → Normalisation (plan de compt
 - Versionning : /v1 ; breaking changes via nouvelle version.
 - Sécurité : OAuth2/OIDC, scopes minimaux, rate-limit par token & IP.
 
-> Pas d’API ni de backend dans la version démo : toutes les données proviennent de mocks front-end.
+> Mise à jour 2025-10-09 : route GraphQL `/api/graphql` (Next.js) exposant `cashSnapshot`, `cashForecast` et `cashScenarios` sur données simulées côté serveur pour alimenter le cockpit.
 
 ## 7) Sécurité & Confidentialité (bons réflexes)
 - RBAC/ABAC : scopes par entité, devise, BU ; séparation des rôles (Owner, FinanceAdmin, Analyst, Viewer, External).
