@@ -1,5 +1,6 @@
 import "server-only";
 
+import { graphQLRequest, USE_MOCKS } from "@/lib/api/graphql-client";
 import {
   loadCashForecast,
   loadCashScenarios,
@@ -46,42 +47,6 @@ export type CashAlert = {
   severity: "success" | "warning" | "danger" | "info";
   timestamp: string;
 };
-
-type GraphQLResponse<T> = {
-  data?: T;
-  errors?: Array<{ message: string }>;
-};
-
-const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === "true";
-
-const API_URL = resolveApiUrl();
-
-async function graphQLRequest<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ query, variables }),
-    cache: "no-store"
-  });
-
-  if (!response.ok) {
-    throw new Error(`Erreur réseau (${response.status})`);
-  }
-
-  const json = (await response.json()) as GraphQLResponse<T>;
-
-  if (json.errors?.length) {
-    throw new Error(json.errors.map((error) => error.message).join(", "));
-  }
-
-  if (!json.data) {
-    throw new Error("Réponse GraphQL vide");
-  }
-
-  return json.data;
-}
 
 export async function getCashSnapshot(): Promise<CashSnapshot> {
   if (USE_MOCKS) {
@@ -163,22 +128,3 @@ export async function getCashScenarios(): Promise<CashScenario[]> {
   return data.cashScenarios;
 }
 
-function resolveApiUrl() {
-  const explicitUrl = process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL;
-  if (explicitUrl) {
-    return explicitUrl;
-  }
-
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? process.env.APP_URL;
-  if (appUrl) {
-    return `${appUrl.replace(/\/$/, "")}/api/graphql`;
-  }
-
-  const vercelUrl = process.env.VERCEL_URL;
-  if (vercelUrl) {
-    const normalized = vercelUrl.startsWith("http") ? vercelUrl : `https://${vercelUrl}`;
-    return `${normalized.replace(/\/$/, "")}/api/graphql`;
-  }
-
-  return "http://localhost:3000/api/graphql";
-}

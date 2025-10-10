@@ -10,7 +10,44 @@ import {
   graphql
 } from "graphql";
 
+import { loadBalanceSheet } from "@/lib/server/balance-sheet-service";
 import { loadCashForecast, loadCashScenarios, loadCashSnapshot } from "@/lib/server/cash-service";
+
+const BalanceSheetItemType = new GraphQLObjectType({
+  name: "BalanceSheetItem",
+  fields: {
+    label: { type: new GraphQLNonNull(GraphQLString) },
+    amount: { type: new GraphQLNonNull(GraphQLFloat) }
+  }
+});
+
+const BalanceSheetGroupType = new GraphQLObjectType({
+  name: "BalanceSheetGroup",
+  fields: {
+    id: { type: new GraphQLNonNull(GraphQLString) },
+    label: { type: new GraphQLNonNull(GraphQLString) },
+    type: { type: new GraphQLNonNull(GraphQLString) },
+    items: { type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(BalanceSheetItemType))) }
+  }
+});
+
+const BalanceSheetYearType = new GraphQLObjectType({
+  name: "BalanceSheetYear",
+  fields: {
+    year: { type: new GraphQLNonNull(GraphQLInt) },
+    currency: { type: new GraphQLNonNull(GraphQLString) },
+    assets: { type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(BalanceSheetGroupType))) },
+    liabilities: { type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(BalanceSheetGroupType))) }
+  }
+});
+
+const BalanceSheetType = new GraphQLObjectType({
+  name: "BalanceSheet",
+  fields: {
+    company: { type: new GraphQLNonNull(GraphQLString) },
+    years: { type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(BalanceSheetYearType))) }
+  }
+});
 
 const CashAlertType = new GraphQLObjectType({
   name: "CashAlert",
@@ -91,6 +128,10 @@ const QueryType = new GraphQLObjectType({
     cashScenarios: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(CashScenarioType))),
       resolve: () => loadCashScenarios()
+    },
+    balanceSheet: {
+      type: new GraphQLNonNull(BalanceSheetType),
+      resolve: () => loadBalanceSheet()
     }
   }
 });

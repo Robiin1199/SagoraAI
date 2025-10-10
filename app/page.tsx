@@ -8,6 +8,7 @@ import { HighlightMetric } from "@/components/highlight-metric";
 import { Roadmap } from "@/components/roadmap";
 import { TopNav } from "@/components/top-nav";
 import { CashExportControls } from "@/components/cash-export";
+import { BalanceSheetExplorer } from "@/components/balance-sheet-explorer";
 import {
   getCashForecast,
   getCashScenarios,
@@ -16,6 +17,7 @@ import {
   type CashScenario,
   type CashSnapshot
 } from "@/lib/api/cash";
+import { getBalanceSheet, type BalanceSheet } from "@/lib/api/balance-sheet";
 import { getDashboardViewModel } from "@/lib/dashboard";
 import { formatCurrency } from "@/lib/utils";
 import { Activity, ArrowUpRightSquare } from "lucide-react";
@@ -47,6 +49,8 @@ export default async function Page() {
   let snapshot: CashSnapshot | null = null;
   let forecast: CashForecast | null = null;
   let scenarios: CashScenario[] = [];
+  let balanceSheet: BalanceSheet | null = null;
+  let balanceSheetError: string | null = null;
 
   try {
     const [snapshotData, forecastData, scenariosData] = await Promise.all([
@@ -61,6 +65,13 @@ export default async function Page() {
   } catch (error) {
     console.error("Erreur lors du chargement du cockpit cash", error);
     errorMessage = error instanceof Error ? error.message : "Une erreur inattendue est survenue.";
+  }
+
+  try {
+    balanceSheet = await getBalanceSheet();
+  } catch (error) {
+    console.error("Erreur lors du chargement du bilan", error);
+    balanceSheetError = error instanceof Error ? error.message : "Une erreur inattendue est survenue.";
   }
 
   const { highlightMetrics, runwayCard, lastUpdateLabel, isLoading } = getDashboardViewModel(
@@ -148,6 +159,16 @@ export default async function Page() {
             <CashScenarios scenarios={scenarios} />
           </div>
           <AlertFeed alerts={snapshot?.alerts ?? []} />
+        </section>
+
+        <section className="mt-12" id="balance-sheet">
+          {balanceSheet ? (
+            <BalanceSheetExplorer data={balanceSheet} />
+          ) : (
+            <div className="rounded-3xl border border-danger/30 bg-danger/10 p-6 text-sm text-danger">
+              Impossible de charger le bilan financier : {balanceSheetError ?? "Données indisponibles."}
+            </div>
+          )}
         </section>
 
         <section className="mt-12 grid gap-6 lg:grid-cols-[1.3fr_0.7fr]" id="bfr">
