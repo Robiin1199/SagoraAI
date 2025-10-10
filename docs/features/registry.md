@@ -7,6 +7,7 @@ _(Dernière génération : 2025-10-09T22:14:31.362Z — exécuter `npm run gener
 | Fonctionnalité | Statut | Catégorie | Owner | Mise en service | Tags |
 | --- | --- | --- | --- | --- | --- |
 [Analytics BFR & Aging](#bfr-analytics) | Beta | Working Capital | RevOps | 2024-05-27 | `bfr` `aging` `receivables`
+[Bilan pluriannuel interactif](#balance-sheet-multi-year) | Beta | Financial Statements | Squad Frontend & Data | 2025-10-09 | `bilan` `financials` `analytics`
 [Cockpit trésorerie 360°](#cash-dashboard-overview) | Beta | Cash Management | Squad Frontend & Data | 2024-05-08 | `cash` `runway` `alerts`
 [Micro-academy contextuelle](#academy-contextual) | Beta | Enablement | Customer Success | 2024-05-08 | `academy` `education`
 [Plan d'actions 14 jours](#action-plan-14-days) | Beta | Operations | Product Ops | 2024-05-08 | `playbook` `operations`
@@ -41,6 +42,30 @@ Taux de segmentation remplie | >= 90% | N/A (aucune donnée temps réel)
 - [Codex – Cockpit Cash & BFR](../SAGORA_APP_CODEX.md#132-cockpit-cash--bfr)
 
 > Sous-fonctionnalités cibles : calculs DSO/DPO/DIO sur données réelles ; exports aging; workflows d’escalade connectés.
+
+## Bilan pluriannuel interactif (balance-sheet-multi-year)
+- **Statut** : Beta
+- **Owner** : Squad Frontend & Data
+- **Catégorie** : Financial Statements
+- **Mise en service** : 2025-10-09
+- **Tags** : `bilan` `financials` `analytics`
+Visualisation des bilans actifs/passifs sur trois exercices, alimentée par le backend GraphQL de démonstration.
+### KPI & métriques
+
+| KPI | Cible | Actuel |
+| --- | --- | --- |
+| Temps de chargement module | < 2 s p95 | N/A (données mock)
+| Adoption finance vs direction | >= 80 % sessions cockpit | N/A (tracking absent)
+
+### Dépendances
+
+- [cash-dashboard-overview](#cash-dashboard-overview)
+
+### Documentation & références
+
+- [Codex – Cockpit Cash & BFR](../SAGORA_APP_CODEX.md#132-cockpit-cash--bfr)
+
+> Étapes futures : brancher le bilan sur la comptabilité réelle, ajouter comparatifs vs budget et ratios sectoriels.
 
 
 ## Cockpit trésorerie 360° (cash-dashboard-overview)
