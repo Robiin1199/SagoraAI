@@ -3,7 +3,7 @@
 
 ## 0) Métadonnées
 - Propriétaire QA : <Nom>
-- Dernière MAJ : <YYYY-MM-DD>
+- Dernière MAJ : 2025-10-10
 - Version : 0.1
 
 ## 1) Stratégie de test
@@ -26,6 +26,7 @@
 - Mapping plan de comptes : vérifie compte pivot, SCD2.
 - Cash Engine : agrégation séries + événements (TVA, salaires) ; jours fériés EU.
 - Calcul BFR/DSO/DPO/DIO : jeux limites (0, négatifs, très grands).
+- UT-101 Cash export summary helpers — **REMPLIE** (2025-10-10) : génération CSV/PDF alignée (node:test `npm run test:unit`).
 
 ## 5) Tests d’intégration
 - DB → API : cohérence pagination/tri, filtrage par entité/devise.
